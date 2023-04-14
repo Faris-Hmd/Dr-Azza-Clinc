@@ -63,7 +63,7 @@ a {
 /** -------- MOBILE VIEW -----*/
 
 .App {
-  direction: rtl;
+  /* direction: rtl; */
   position: fixed;
   top: 0;
   left: 0;
@@ -71,8 +71,8 @@ a {
   height: 100%;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 0.1fr 8.3fr 0.6fr;
-  grid-template-areas: "nav" "main" "buttomNav";
+  grid-template-rows: 1fr 9fr;
+  grid-template-areas: "nav" "main";
   color: var(--font-clr);
   background-color: var(--prime-clr);
   overflow-x: hidden;
@@ -110,9 +110,9 @@ a {
   }
 
   .App {
-    grid-template-columns: 2fr 8fr;
+    grid-template-columns: 1fr;
     grid-template-rows: 0.5fr 9.5fr;
-    grid-template-areas: "nav nav" "leftSide main";
+    grid-template-areas: "nav nav" "main";
     column-gap: 2px;
     scrollbar-width: thin;
   }
@@ -125,11 +125,11 @@ a {
     display: block;
   }
   .App {
-    grid-template-columns: 2fr 8fr;
+    grid-template-columns: 1fr;
     grid-template-rows: 0.9fr 9.1fr;
     grid-template-areas:
       "nav nav "
-      "leftSide main";
+      "main";
   }
 }
 

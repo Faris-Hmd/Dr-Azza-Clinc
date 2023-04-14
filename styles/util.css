@@ -111,75 +111,17 @@ a:hover {
 .disable {
   opacity: 0.6;
 }
-
-.checkBox {
-  cursor: pointer;
-  background-color: #eee;
-  color: var(--theme-clr);
-  border-radius: 5px;
-  border: 2px solid var(--theme-clr);
-  padding: 8px 2px;
-  cursor: pointer;
+.wave {
   text-align: center;
-  margin-bottom: 0.5em;
-}
-.checkBoxChecked {
-  background-color: var(--theme-clr);
   color: #eee;
-  border-radius: 5px;
-  border: none;
-  border: 2px solid var(--theme-clr);
-  padding: 8px 2px;
-  cursor: pointer;
-  text-align: center;
-  margin-bottom: 0.5em;
-}
-
-.floating-badge {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 0;
-  height: 100%;
-  background: var(--theme-clr);
-  color: var(--theme-clr);
-  color: #0000;
-  box-shadow: 1px 1px 5px var(--shadow-clr);
-}
-.floating-badge-2 {
-  position: absolute;
-  top: -4px;
-  left: 15px;
-  border-radius: 0 0 5px 5px;
-  padding: 1px 5px;
-  background: var(--theme-clr);
-  color: #0000;
-  box-shadow: 1px 1px 5px var(--shadow-clr);
-  clip-path: polygon(
-    50% 0,
-    100% 0,
-    100% 35%,
-    100% 70%,
-    100% 100%,
-    50% 80%,
-    0 100%,
-    0 65%,
-    0 23%,
-    0 0
+  padding-top: 4em;
+  /* background-image: url("/Images/wave.svg"); */
+  background: rgb(255, 136, 0);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 136, 0, 1) 0%,
+    rgba(9, 184, 17, 1) 100%
   );
-}
-.floating-badge-green {
-  background: green;
-}
-.floating-badge-yellow {
-  background: gold;
-}
-.floating-badge-red {
-  background: rgb(197, 60, 83);
-}
-.floating-badge-gray {
-  background: gray;
-}
-.floating-badge-orange {
-  background: rgb(200, 127, 0);
+  background-size: cover;
+  min-height: 50vh;
 }

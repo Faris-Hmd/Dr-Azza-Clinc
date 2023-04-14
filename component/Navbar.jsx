@@ -5,7 +5,7 @@ const Navbar = () => {
     <nav className={styles.nav}>
       <div className={styles.logo}>
         <img width={"30px"} src="/icons/DrAzzaIcon.webp" alt="atcs" />
-        <span className="p-2 fos-m text-nowrap">عيادة دكتورة عزة</span>
+        <span className="p-2 fos-m text-nowrap">Dr. Azza Clinc</span>
       </div>
     </nav>
   );
