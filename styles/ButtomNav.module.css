@@ -1,0 +1,32 @@
+/** @format */
+.buttomNav {
+  display: flex;
+  justify-content: space-around;
+  /* padding: 0 0.2em; */
+  align-items: center;
+  background-color: var(--sec-clr);
+  /* box-shadow: 0 -1px 2px var(--shadow-clr); */
+  border-top: 1px solid var(--shadow-clr);
+  grid-area: buttomNav;
+}
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+  height: 100%;
+  font-size: 12px;
+  transition: all 300ms;
+  padding-top: 3px;
+  color: var(--font-clr);
+  text-decoration: none;
+}
+.page:hover {
+  background-color: var(--hover-clr);
+}
+@media (min-width: 650px) {
+  .buttomNav {
+    display: none;
+  }
+}

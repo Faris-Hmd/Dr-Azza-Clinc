@@ -1,0 +1,49 @@
+/** @format */
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* padding: 0.3em 0.2em; */
+  background-color: var(--sec-clr);
+  border-bottom: 1.5px solid var(--shadow-clr);
+  grid-area: nav;
+}
+
+.nav .logo {
+  padding: 10px;
+  margin-right: 0.5em;
+  font-weight: 600;
+  color: var(--font-clr);
+}
+.nav .logo span {
+  /* color: var(--theme-clr); */
+}
+.theme {
+  padding: 0.6em;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.theme:hover {
+  background-color: var(--hover-clr);
+}
+.userNav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0 20px;
+  border-radius: 50%;
+  background: none;
+}
+
+.userNav .profileImg {
+  border-radius: 50%;
+  max-width: 40px;
+  min-width: 40px;
+  max-height: 40px;
+  min-height: 40px;
+}

@@ -1,0 +1,80 @@
+/** @format */
+.fillter {
+  background-color: var(--sec-clr);
+  /* border-radius: 5px; */
+}
+
+.fillter button {
+  border: none;
+  transition: all 250ms;
+}
+
+.inputGroupLabel {
+  padding: 0.8em;
+  width: 100%;
+}
+.inputGroup {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  border: 1.5px solid var(--shadow-clr);
+  background-color: var(--sec-clr);
+  border-radius: 10px;
+  padding: 5px;
+  margin: 10px auto;
+  min-width: 100%;
+}
+
+.form input[type="submit"] {
+  margin: 15px auto;
+  transition: all 300ms;
+  border-radius: 5px;
+  color: #eee;
+  border: 2px solid var(--theme-clr);
+  border-radius: 5px;
+  background-image: linear-gradient(var(--theme-clr), var(--theme-clr));
+  box-shadow: -0.5px 0.5px 5px var(--shadow-clr);
+  transition: all 300ms;
+  width: 95%;
+}
+.form input[type="submit"]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.form input[type="submit"]:hover {
+  color: var(--theme-clr);
+  background-image: linear-gradient(rgb(180, 189, 217), rgb(180, 189, 217));
+}
+
+.checkBox {
+  cursor: pointer;
+  min-width: 45%;
+  background-color: #eee;
+  color: var(--theme-clr);
+  border-radius: 5px;
+  border: 2px solid var(--theme-clr);
+  padding: 8px 2px;
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+.checkBoxChecked {
+  min-width: 45%;
+  background-color: var(--theme-clr);
+  color: #eee;
+  border-radius: 5px;
+  border: none;
+  border: 2px solid var(--theme-clr);
+  padding: 8px 2px;
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 0.5em;
+}
+@media (min-width: 570px) {
+  .fillter {
+    width: 70%;
+  }
+}

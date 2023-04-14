@@ -1,0 +1,41 @@
+{
+  "name": "ATCS",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "emu": "firebase emulators:start",
+    "dev": "next dev -p 3005",
+    "build": "next build",
+    "start": "next  start -p 3005",
+    "lint": "next lint",
+    "analyze": "cross-env ANALYZE=true next build",
+    "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
+  },
+  "dependencies": {
+    "@next/font": "^13.1.1",
+    "axios": "^1.2.2",
+    "bootstrap": "^5.2.3",
+    "chart.js": "^4.2.1",
+    "file-saver": "^2.0.5",
+    "firebase": "^9.11.0",
+    "formik": "^2.2.9",
+    "next": "^13.1.0",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.7.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.7.1",
+    "react-query": "^3.39.2",
+    "react-to-print": "^2.14.11",
+    "react-toastify": "^9.1.1",
+    "sheetjs-style": "^0.15.8",
+    "swiper": "^8.4.3"
+  },
+  "devDependencies": {
+    "@next/bundle-analyzer": "^13.2.3",
+    "cross-env": "^7.0.3",
+    "eslint": "8.25.0",
+    "eslint-config-next": "12.3.1"
+  }
+}

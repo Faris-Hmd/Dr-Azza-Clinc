@@ -1,0 +1,16 @@
+{
+  "name": "نادي السيارات والرحلات السوداني",
+  "short_name": "ATCS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#eeeeee",
+  "theme_color": "#eeeeee",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/atcs-logo.png",
+      "type": "image/png",
+      "sizes": "72x72"
+    }
+  ]
+}
