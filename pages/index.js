@@ -23,7 +23,7 @@ const posts = [
   {
     img: "diet.jpg",
     title: "DIET PLAN ACCORDING TO YOUR HEALTH STATUS",
-    post: "Whatever your current healthy status and the diseases youhave, Dt. Azza Khalid carefully evaluates each client and formulates a personalized plan based on your specific needs. Send us your medical results and you will get a good diet plan according to your health status. Send us your medical results and you will get a good diet plan according to your health status.",
+    post: "Whatever your current healthy status and the diseases youhave, Dt. Azza Khalid carefully evaluates each client and formulates a personalized plan based on your specific needs. Send us your medical results and you will get a good diet plan according to your health status Whatever your current healthy status.",
   },
 ];
 
@@ -39,7 +39,7 @@ function Homepage() {
       <Row className="text m-2 shadow rounded bg-sec">
         {" "}
         <Col xs={12} lg={6} className="p-0">
-          <Image src={"/images/fruits.webp"} width={"100%"} height={"270px"} />
+          <Image src={"/images/fruits.webp"} width={"100%"} height={"290px"} />
         </Col>
         <Col xs={12} lg={6} className="pt-1 bg-sec">
           <p>
@@ -52,7 +52,7 @@ function Homepage() {
             with food, Dt. Azza Khalid offers a variety of services and packages
             designed to meet your needs. <br />
             Get a healthy diet plan according to your health status to get a
-            healthy weight and lifestyle
+            healthy weight and lifestyle.
           </p>
         </Col>
       </Row>
@@ -68,9 +68,6 @@ function Homepage() {
       </Row>
       <Row className="p-0">
         <ContactUs />
-      </Row>
-      <Row className="p-0">
-        <Footer />
       </Row>
     </Container>
   );

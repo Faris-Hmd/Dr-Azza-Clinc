@@ -1,9 +1,9 @@
 /** @format */
 import Head from "next/head";
-import { ThemeProvider } from "react-bootstrap";
+import { Container, Row, ThemeProvider } from "react-bootstrap";
 // import ButtomNav from "./ButtomNav";
 import Navbar from "./Navbar";
-import Footer from "./ContactUs";
+import Footer from "./Footer";
 
 /** @format */
 const Layout = ({ children }) => {
@@ -23,7 +23,14 @@ const Layout = ({ children }) => {
           <div className="leftSide"></div>
           <Navbar />
           {/* <ButtomNav /> */}
-          <main className="main">{children}</main>
+          <main className="main">
+            {children}
+            <Container>
+              <Row className="p-0">
+                <Footer />
+              </Row>
+            </Container>
+          </main>
         </div>
       </ThemeProvider>
     </>

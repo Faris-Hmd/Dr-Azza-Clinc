@@ -3,7 +3,7 @@ import { Col, Container } from "react-bootstrap";
 
 function Footer() {
   return (
-    <Container className="bg-sec p-0 flex-r bg-liner">
+    <Container className="bg-sec p-0 flex-r bg-liner mt-3">
       <Col xs={6} lg={3} className="p-2">
         Contact Info
         <br />
@@ -12,7 +12,6 @@ function Footer() {
       <Col xs={6} lg={3} className="p-2">
         Contact Info
         <small>
-          {" "}
           <ul>
             <li> drazza@gmail.com</li>
             <li>+249912345678</li>

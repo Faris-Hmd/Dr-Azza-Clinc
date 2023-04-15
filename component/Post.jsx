@@ -1,23 +1,18 @@
 import React from "react";
-import { Col } from "react-bootstrap";
+import { Card, Col } from "react-bootstrap";
 
 function Post({ img, post, title }) {
   return (
-    <Col className="p-0 m-0 pt-2 post rounded mb-3 bg-sec" xs={12} lg={6}>
-      <Col xs={12}>
-        <h5 className="p-2 bg-gray">{title}</h5>
-      </Col>
-      <Col xs={12}>
-        <img
-          src={`/images/${img}`}
-          width={"100%"}
-          height={"220px"}
-          className="shadow-sm post-img"
-        />
-      </Col>
-      <Col xs={12}>
-        <p className="p-1">{post}</p>
-      </Col>
+    <Col className="post rounded mb-2 bg-sec fc-b" xs={12} lg={6}>
+      <Card>
+        {/* <Card.Header>{title}</Card.Header> */}
+        <Card.Body>
+          <Card.Title>{title}</Card.Title>
+          <Card.Img src={`/images/${img}`} height={"300px"} />
+          <Card.Text>{post}</Card.Text>
+          {/* <Button variant="primary">Go somewhere</Button> */}
+        </Card.Body>
+      </Card>
     </Col>
   );
 }
