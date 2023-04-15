@@ -1,8 +1,7 @@
 import React from "react";
-import { Col, Container, Image, Row } from "react-bootstrap";
 import Post from "../component/Post";
-import ContactUs from "../component/ContactUs";
-
+import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import Link from "next/link";
 const posts = [
   {
     img: "loss.jpg",
@@ -21,47 +20,34 @@ const posts = [
   },
   {
     img: "diet.jpg",
-    title: "DIET PLAN ACCORDING TO YOUR HEALTH",
+    title: "DIET PLAN ACCORDING TO YOUR HEALTH STATUS",
     post: "Whatever your current healthy status and the diseases youhave, Dt. Azza Khalid carefully evaluates each client and formulates a personalized plan based on your specific needs. Send us your medical results and you will get a good diet plan according to your health status Whatever your current healthy status.",
   },
 ];
-
-function Homepage() {
+function Blog() {
   return (
     <Container>
-      <Row className="wave">
-        <Col>
-          <h1>GET HEALTHY WITH DR. AZZA KHALID</h1>
-          <p>You Lives Once.. Make it Healthy & Put Your Diet into Focus</p>
-        </Col>
-      </Row>
-      <Row className="text m-2 shadow rounded bg-sec">
-        {" "}
-        <Col xs={12} lg={6} className="p-0">
-          <Image src={"/images/fruits.webp"} width={"100%"} height={"290px"} />
-        </Col>
-        <Col xs={12} lg={6} className="pt-1 bg-sec">
-          <p>
-            There is often times a disconnect when it comes to living a healthy
-            lifestyle; we know what’s good for our bodies, but we don’t always
-            act accordingly. Dt. Azza Khalid aims to mend the gap between
-            knowing and doing, by catering to each individual's unique
-            circumstances. Whether it is weight loss or weight management,
-            managing a dietary condition, or developing a healthy relationship
-            with food, Dt. Azza Khalid offers a variety of services and packages
-            designed to meet your needs. <br />
-            Get a healthy diet plan according to your health status to get a
-            healthy weight and lifestyle.
-          </p>
-        </Col>
+      <Row>
+        <h1 className="p-2">ARTICLES</h1>
       </Row>
       <Row>
-        <h2 className="p-3 text-center ">HEALTH SERVICES</h2>
-      </Row>
-      <Row className="p-0 m-0">
-        <Container className="flex-r p-0 gap-1">
+        <Container className="flex-r p-0 gap-2">
           {posts.map((post) => {
-            return <Post post={post.post} img={post.img} title={post.title} />;
+            return (
+              <Col className="post rounded mb-2 bg-sec fc-b" xs={12} lg={5}>
+                <Card>
+                  {/* <Card.Header>{title}</Card.Header> */}
+                  <Card.Body>
+                    <Card.Title>{post.title}</Card.Title>
+                    <Card.Img src={`/images/${post.img}`} height={"300px"} />
+                    <Card.Text>{post.post}</Card.Text>
+                    <Link href="Post/1">
+                      <Button variant="success">Read more</Button>
+                    </Link>
+                  </Card.Body>
+                </Card>
+              </Col>
+            );
           })}
         </Container>
       </Row>
@@ -69,4 +55,4 @@ function Homepage() {
   );
 }
 
-export default Homepage;
+export default Blog;

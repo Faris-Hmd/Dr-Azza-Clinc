@@ -32,7 +32,7 @@ const products = [
 function Products() {
   return (
     <Container className="p-0">
-      <h1 className="p-2">Products</h1>
+      <h1 className="p-2">PRODUCTS</h1>
       <Container className="flex-r gap-2">
         {products.map((product) => {
           return (

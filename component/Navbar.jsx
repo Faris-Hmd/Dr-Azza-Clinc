@@ -2,7 +2,7 @@ import { Button, Col, Container, Offcanvas } from "react-bootstrap";
 import styles from "../styles/Navbar.module.css";
 import { useState } from "react";
 import { FaBars, FaHome } from "react-icons/fa";
-import { BsBasket, BsHouseDoor } from "react-icons/bs";
+import { BsBasket, BsBook, BsHouseDoor } from "react-icons/bs";
 import Link from "next/link";
 
 const Navbar = () => {
@@ -41,9 +41,9 @@ const Navbar = () => {
               </Link>
             </Col>{" "}
             <Col xs={12} onClick={handleClose}>
-              <Link href="/" className="w-100 Link hover flex-r p-3">
-                <BsHouseDoor size={"25px"} className="ms-3" />
-                Home
+              <Link href="/Blog" className="w-100 Link hover flex-r p-3">
+                <BsBook size={"25px"} className="ms-3" />
+                Blog
               </Link>
             </Col>
           </Container>

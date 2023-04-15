@@ -1,8 +1,4 @@
 /** @format */
-.post {
-  border: 1px solid var(--shadow-clr);
-  transform: scale(0.95);
-}
 
 .accounts {
   transform: scale(0.9);
