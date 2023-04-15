@@ -3,6 +3,7 @@ import Head from "next/head";
 import { ThemeProvider } from "react-bootstrap";
 // import ButtomNav from "./ButtomNav";
 import Navbar from "./Navbar";
+import Footer from "./ContactUs";
 
 /** @format */
 const Layout = ({ children }) => {
@@ -13,7 +14,7 @@ const Layout = ({ children }) => {
         <link
           rel="shortcut icon"
           type="image/x-icon"
-          href="/icons/atcs-logo.png"
+          href="/icons/DrAzzaIcon.ico"
         />
       </Head>
       <ThemeProvider>

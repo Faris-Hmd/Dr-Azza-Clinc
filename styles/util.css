@@ -1,6 +1,33 @@
 /** @format */
+.post {
+  border: 1px solid var(--shadow-clr);
+  transform: scale(0.95);
+}
+.form {
+  border: 1px solid var(--shadow-clr);
+}
+.accounts {
+  transform: scale(0.9);
+  transition: all 300ms;
+}
+.accounts:hover {
+  transform: scale(1);
+}
+.bg-sec {
+  background-color: var(--sec-clr);
+}
+.bg-liner {
+  background: linear-gradient(
+    160deg,
+    rgba(249, 108, 0, 0.2) 0%,
+    rgba(29, 184, 0, 0.2) 100%
+  );
+}
 a:hover {
   color: #444 !important;
+}
+.border {
+  border: 2px solid var(--shadow-clr);
 }
 .flex {
   display: flex;
@@ -12,6 +39,7 @@ a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 }
 .rtl {
   direction: rtl;
@@ -29,10 +57,12 @@ a:hover {
 /* .full > * {
   flex: 1 1 1;
 } */
-.icon {
-}
+
 .h-500 {
   min-height: 500px !important;
+}
+.h-100 {
+  min-height: 100%;
 }
 .fc-w {
   color: #eee !important;
@@ -69,7 +99,8 @@ a:hover {
   background-color: var(--sec-clr);
 }
 .bg-b {
-  background-color: lightgray;
+  background-color: black;
+  /* background-color: darkorange; */
 }
 .table-responsive-sm {
   width: 100%;
@@ -117,11 +148,26 @@ a:hover {
   padding-top: 4em;
   /* background-image: url("/Images/wave.svg"); */
   background: rgb(255, 136, 0);
+  background: rgb(249, 108, 0);
   background: linear-gradient(
-    135deg,
-    rgba(255, 136, 0, 1) 0%,
-    rgba(9, 184, 17, 1) 100%
+    160deg,
+    rgba(249, 108, 0, 1) 0%,
+    rgba(29, 184, 0, 1) 100%
   );
   background-size: cover;
-  min-height: 50vh;
+  min-height: 40vh;
+}
+
+.post-img {
+  object-fit: fill;
+}
+.text {
+  background-color: #eee;
+  transform: translateY(-10%);
+  overflow: hidden;
+}
+.contact-us {
+  background-image: url("/images/map.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
