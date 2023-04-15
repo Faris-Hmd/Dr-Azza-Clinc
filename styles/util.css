@@ -3,9 +3,7 @@
   border: 1px solid var(--shadow-clr);
   transform: scale(0.95);
 }
-.form {
-  border: 1px solid var(--shadow-clr);
-}
+
 .accounts {
   transform: scale(0.9);
   transition: all 300ms;
@@ -27,7 +25,11 @@ a:hover {
   color: #444 !important;
 }
 .border {
-  border: 2px solid var(--shadow-clr);
+  border: 1px solid var(--shadow-clr);
+  overflow: hidden;
+}
+.border-b {
+  border-bottom: 1px solid var(--shadow-clr);
 }
 .flex {
   display: flex;
@@ -104,16 +106,21 @@ a:hover {
 .Link {
   text-decoration: none;
   color: #020202;
-  font-size: larger;
   transition: all 300ms;
   justify-content: start;
   /* border-radius: 10px; */
-  border-bottom: 2px solid var(--shadow-clr);
 }
-.Link:hover {
+.hover {
+  transition: all 300ms;
+}
+.hover:hover {
   background-color: #444;
   color: #eee !important;
 }
+/* .Link:hover {
+  background-color: #444;
+  color: #eee !important;
+} */
 .bg-w {
   color: #020202;
   background-color: var(--sec-clr);
@@ -154,7 +161,13 @@ a:hover {
 }
 .bg-clr {
   color: #eee;
-  background-color: var(--theme-clr);
+  background-color: var(--theme-clr) !important;
+  border-color: var(--theme-clr) !important;
+}
+.bg-clr:hover {
+  color: var(--theme-clr) !important;
+  background-color: rgba(191, 81, 41, 0.395) !important;
+  border-color: var(--theme-clr) !important;
 }
 .hidden {
   display: none;

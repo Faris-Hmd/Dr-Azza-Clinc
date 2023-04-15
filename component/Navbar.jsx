@@ -5,11 +5,6 @@ import { FaBars, FaHome } from "react-icons/fa";
 import { BsBasket, BsHouseDoor } from "react-icons/bs";
 import Link from "next/link";
 
-const links = [
-  { href: "/", text: "Home" },
-  { href: "/Products", text: "Shop" },
-];
-
 const Navbar = () => {
   const [show, setShow] = useState(false);
 
@@ -21,7 +16,7 @@ const Navbar = () => {
         <img width={"30px"} src="/icons/DrAzzaIcon.webp" alt="drc" />
         <span className="p-2 fos-m text-nowrap">Dr. Azza Clinc</span>
       </div>
-      <Button variant="secondary" onClick={handleShow} className="m-2 border">
+      <Button variant="hover" onClick={handleShow} className="m-2 border hover">
         <FaBars />
       </Button>
       <Offcanvas show={show} onHide={handleClose}>
@@ -29,17 +24,28 @@ const Navbar = () => {
           <Offcanvas.Title>Menu</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <Container className="p-0">
-            {links.map((link) => {
-              return (
-                <Col xs={12} onClick={handleClose}>
-                  <Link href={link.href} className="w-100 Link flex-r p-2">
-                    <BsHouseDoor size={"25px"} className="ms-3" />
-                    {link.text}
-                  </Link>
-                </Col>
-              );
-            })}
+          <Container className="p-0 border rounded">
+            <Col xs={12} onClick={handleClose}>
+              <Link href="/" className="w-100 Link hover flex-r p-3 border-b">
+                <BsHouseDoor size={"25px"} className="ms-3" />
+                Home
+              </Link>
+            </Col>
+            <Col xs={12} onClick={handleClose}>
+              <Link
+                href="/Products"
+                className="w-100 Link hover flex-r p-3 border-b"
+              >
+                <BsBasket size={"25px"} className="ms-3" />
+                Shop
+              </Link>
+            </Col>{" "}
+            <Col xs={12} onClick={handleClose}>
+              <Link href="/" className="w-100 Link hover flex-r p-3">
+                <BsHouseDoor size={"25px"} className="ms-3" />
+                Home
+              </Link>
+            </Col>
           </Container>
         </Offcanvas.Body>
       </Offcanvas>
