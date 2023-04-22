@@ -15,11 +15,11 @@ import SpinnerLoading from "../component/SpinnerLoading";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
-function Articles() {
-  const [articles, setArticle] = useState();
+function Articles(prop) {
+  const [articles, setArticle] = useState(prop.articles);
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [artId, setArtId] = useState("");
   const [show, setShow] = useState(false);
 
@@ -46,7 +46,7 @@ function Articles() {
   }
 
   useEffect(() => {
-    getArts();
+    // getArts();
   }, []);
 
   useEffect(() => window.scrollTo(0, 0), []);
@@ -143,3 +143,14 @@ function Articles() {
 }
 
 export default Articles;
+
+export async function getStaticProps() {
+  const data = await fetch(`${baseUrl}/api/getArts?keyword=all`);
+  const articles = await data.json();
+
+  return {
+    props: {
+      articles: articles,
+    },
+  };
+}
