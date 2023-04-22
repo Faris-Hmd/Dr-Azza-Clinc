@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, Carousel, Col, Container, Row } from "react-bootstrap";
 
 function Product() {
+  useEffect(() => window.scrollTo(0, 0), []);
+
   return (
     <Container className="p-0 full">
       <Col xs={12} lg={7}>

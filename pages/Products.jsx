@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Card, Col, Container } from "react-bootstrap";
 
 const products = [
@@ -30,6 +30,8 @@ const products = [
 ];
 
 function Products() {
+  useEffect(() => window.scrollTo(0, 0), []);
+
   return (
     <Container className="p-0">
       <h1 className="p-2">PRODUCTS</h1>

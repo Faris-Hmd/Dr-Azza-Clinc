@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Card, Col, Container } from "react-bootstrap";
 
 function Post() {
+  useEffect(() => window.scrollTo(0, 0), []);
+
   return (
     <Container className="full p-0">
       <Col className="rounded mb-2 bg-sec p-0" xs={12} lg={10}>

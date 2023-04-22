@@ -1,5 +1,4 @@
-import React from "react";
-import Post from "../component/Post";
+import React, { useEffect } from "react";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import Link from "next/link";
 const posts = [
@@ -25,6 +24,7 @@ const posts = [
   },
 ];
 function Blog() {
+  useEffect(() => window.scrollTo(0, 0), []);
   return (
     <Container>
       <Row>

@@ -160,10 +160,22 @@ a:hover {
   background-color: var(--theme-clr) !important;
   border-color: var(--theme-clr) !important;
 }
+
 .bg-clr:hover {
   color: var(--theme-clr) !important;
   background-color: rgba(191, 81, 41, 0.395) !important;
   border-color: var(--theme-clr) !important;
+}
+.bg-clr-green {
+  color: #eee;
+  background-color: rgb(19, 111, 2) !important;
+  border: 2px solid rgb(19, 111, 2) !important;
+}
+
+.bg-clr-green:hover {
+  color: rgb(19, 111, 2) !important;
+  background-color: rgb(19, 111, 2, 0.2) !important;
+  border-color: rgb(19, 111, 2) !important;
 }
 .hidden {
   display: none;

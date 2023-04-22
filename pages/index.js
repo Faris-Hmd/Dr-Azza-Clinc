@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Image, Row } from "react-bootstrap";
 import Post from "../component/Post";
 import ContactUs from "../component/ContactUs";
@@ -27,6 +27,8 @@ const posts = [
 ];
 
 function Homepage() {
+  useEffect(() => window.scrollTo(0, 0), []);
+
   return (
     <Container>
       <Row className="wave">

@@ -3,7 +3,7 @@ import Layout from "../component/Layout";
 import "../styles/globals.css";
 import "../styles/util.css";
 // import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/css/bootstrap.rtl.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { UserProvider } from "../context/authContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
