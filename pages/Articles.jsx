@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Dropdown, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Dropdown,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import Link from "next/link";
 import { BsPlus, BsThreeDotsVertical } from "react-icons/bs";
 import { baseUrl } from "./_app";
@@ -12,6 +20,12 @@ function Articles() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [artId, setArtId] = useState("");
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   async function getArts() {
     setIsLoading(true);
     fetch(`${baseUrl}/api/getArts?keyword=all`)
@@ -22,7 +36,7 @@ function Articles() {
       });
   }
 
-  async function handleDelete(artId) {
+  async function handleDelete() {
     fetch(`${baseUrl}/api/getArt?artId=${artId}`, {
       method: "delete",
     }).then(() => {
@@ -38,6 +52,19 @@ function Articles() {
   useEffect(() => window.scrollTo(0, 0), []);
   return (
     <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Are you sure?</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button onClick={handleDelete} variant="danger">
+            Delete
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
       {isLoading && <SpinnerLoading />}
       {!isLoading && (
         <Container>
@@ -83,7 +110,10 @@ function Articles() {
                                 </Dropdown.Item>
                                 <Dropdown.Item
                                   href="#/action-2"
-                                  onClick={() => handleDelete(article.id)}
+                                  onClick={() => {
+                                    handleShow();
+                                    setArtId(article.id);
+                                  }}
                                 >
                                   Delete
                                 </Dropdown.Item>
