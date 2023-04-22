@@ -3,7 +3,7 @@ import { Button, Card, Col, Container, Dropdown, Row } from "react-bootstrap";
 import Link from "next/link";
 import { BsPlus, BsThreeDotsVertical } from "react-icons/bs";
 import { baseUrl } from "./_app";
-import SpinnerLoading from "../component/Spinner";
+import SpinnerLoading from "../component/SpinnerLoading";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
@@ -41,12 +41,12 @@ function Articles() {
       {isLoading && <SpinnerLoading />}
       {!isLoading && (
         <Container>
-          <Row className="flex-r justify-content-between">
+          <Row className="flex-r justify-content-between p-0">
             <h1 className="p-2 w-50">ARTICLES</h1>
             <Link
               href={"/AddArticle"}
-              className="p-0 m-2"
-              style={{ width: "160px" }}
+              className="p-0 m-0"
+              style={{ width: "150px" }}
             >
               <Button className="bg-clr shadow">
                 Add Article
@@ -93,6 +93,9 @@ function Articles() {
                         </Container>
                         <Card.Img src={article.img} height={"270px"} />
                         <Card.Text>{article.body}</Card.Text>
+                        <Card.Text className="text-muted">
+                          {article.category}
+                        </Card.Text>
                         <Link href={`Article/${article.id}`}>
                           <Button variant="success">Read more</Button>
                         </Link>

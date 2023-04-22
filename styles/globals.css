@@ -68,7 +68,7 @@ a {
 /** -------- MOBILE VIEW -----*/
 
 .App {
-  position: fixed;
+  /* position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -76,7 +76,7 @@ a {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 0.5fr 9.5fr;
-  grid-template-areas: "nav" "main";
+  grid-template-areas: "nav" "main"; */
   color: var(--font-clr);
   background-color: var(--prime-clr);
   overflow-x: hidden;
@@ -86,6 +86,7 @@ a {
 }
 
 .main {
+  padding-top: 4.5em;
   width: 100%;
   overflow-x: hidden;
   grid-area: main;
@@ -94,58 +95,23 @@ a {
   background-color: var(--prime-clr);
 }
 
-.leftSide,
-.rightSide {
-  display: none;
-  grid-area: rightSide;
-  border-left: 1px solid var(--shadow-clr);
-}
-.leftSide {
-  border-right: 1px solid var(--shadow-clr);
-  grid-area: leftSide;
-}
-
 /** ------------- TABLET VIEW ---------*/
 
 @media (min-width: 650px) {
-  /* .header {
-    margin: 1em 0.4em 0;
-    font-size: 2rem;
-  } */
-  .leftSide {
-    display: block;
-  }
-
-  .App {
+  /* .App {
     grid-template-columns: 1fr;
     grid-template-rows: 0.5fr 9.5fr;
     grid-template-areas: "nav nav" "main";
     column-gap: 2px;
     scrollbar-width: thin;
-  }
+  } */
 }
 @media (min-width: 1000px) {
-  .header {
-    font-size: large;
-  }
-  .rightSide {
-    display: block;
-  }
-  .App {
+  /* .App {
     grid-template-columns: 1fr;
     grid-template-rows: 0.9fr 9.1fr;
     grid-template-areas:
       "nav nav "
       "main";
-  }
+  } */
 }
-
-/* @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
-} */

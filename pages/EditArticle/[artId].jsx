@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Card, Carousel, Col, Container, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import SpinnerLoading from "../../component/Spinner";
 import { baseUrl } from "../_app";
 import { app } from "../../firebase/firebase";
+import SpinnerLoading from "../../component/SpinnerLoading";
 
 function EditArticles() {
   const router = useRouter();

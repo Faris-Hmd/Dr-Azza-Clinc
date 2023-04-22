@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card, Col, Container } from "react-bootstrap";
 import { baseUrl } from "../_app";
 import { useRouter } from "next/router";
-import SpinnerLoading from "../../component/Spinner";
+import SpinnerLoading from "../../component/SpinnerLoading";
 
 function Article() {
   const router = useRouter();

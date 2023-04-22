@@ -8,7 +8,7 @@ import { UserProvider } from "../context/authContext";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const internetUrl = "https://dr-azza-clinc.netlify.app";
-const localurl = " http://localhost:3005";
+const localurl = " http://192.168.12.102:3005";
 export let baseUrl = internetUrl;
 
 if (process && process.env.NODE_ENV === "development") {
