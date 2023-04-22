@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Carousel, Col, Container, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { app, db } from "../../firebase/firebase";
 import { useRouter } from "next/router";
 import SpinnerLoading from "../../component/Spinner";
-import { doc, getDoc } from "firebase/firestore";
+import { baseUrl } from "../_app";
+import { app } from "../../firebase/firebase";
 
 function EditArticles() {
   const router = useRouter();
@@ -12,12 +12,17 @@ function EditArticles() {
   const [isLoading, setIsLoading] = useState(true);
   const [images, setImgs] = useState([]);
   const [atricleImgs, setAtricleImgs] = useState([]);
-  const [article, setArticle] = useState({
-    articleName: "",
-    articleImgs: "",
-    articleCategory: "",
-    articleBody: "",
-  });
+  const [article, setArticle] = useState({});
+
+  function getArticle() {
+    fetch(baseUrl + "/api/getArt?artId=" + router.query.artId)
+      .then((res) => res.json())
+      .then((data) => {
+        setIsLoading(false);
+        setArticle(data);
+        setImgs(data.atricleImgs);
+      });
+  }
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -39,15 +44,19 @@ function EditArticles() {
       ]);
     }
   };
-
+  const removeImage = (url) => {
+    setImgs(images.filter((img) => img.url !== url));
+  };
   ////////////////////////////////////////////////////
 
   const handleUploadArtImg = async (e) => {
     const { getDownloadURL, ref, uploadBytesResumable, getStorage } =
       await import("firebase/storage");
-    const storage = getStorage(app);
+    // const { app } = import("../../firebase/firebase");
+    const storage = await getStorage(app);
+
     e.preventDefault();
-    // setIsUpload(true);
+    setIsUpload(true);
     setAtricleImgs([]);
     images.forEach((img) => {
       if (!img.productImgFile) {
@@ -80,20 +89,25 @@ function EditArticles() {
   //////////////////////////////////////////////////////////////////////////////////////////////
   const uploadArticle = async () => {
     console.log("upload");
-    const { setDoc, doc } = await import("firebase/firestore");
     try {
-      await setDoc(doc(db, "articles", router.query.artId), {
-        ...article,
-        atricleImgs: atricleImgs,
-        // date: serverTimestamp(),
+      fetch(baseUrl + "/api/getArt", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify({ ...article, atricleImgs: atricleImgs }),
+      }).then(() => {
+        setAtricleImgs([]);
+        toast.success("Edit done");
+        setTimeout(() => {
+          setIsUpload(false);
+          router.push("/Article/" + router.query.artId);
+        }, 3000);
       });
-      setIsUpload(false);
-      setAtricleImgs([]);
-      toast.success("Upload done");
     } catch (e) {
       setIsUpload(false);
-      setAtricleImgs([]);
-      toast.error("Error uploading");
+      toast.error("Error Editing");
       console.error("Error adding document: ", e);
     }
   };
@@ -101,23 +115,13 @@ function EditArticles() {
     if (atricleImgs.length === 0) return;
     if (atricleImgs.length === images.length) {
       uploadArticle();
-      // nav("/");
     }
   }, [atricleImgs]); // eslint-disable-line
-  useEffect(() => {
-    if (!router.query.artId) return;
-    async function getArticle() {
-      const snapShot = await getDoc(doc(db, "articles", router.query.artId));
-      const data = snapShot.data();
-      setArticle({ ...data, id: snapShot.id });
-      setImgs(data.atricleImgs);
-    }
-    getArticle();
-  }, [router.query]);
 
   useEffect(() => {
-    if (article.id) setIsLoading(false);
-  }, [article]);
+    if (!router.query.artId) return;
+    getArticle();
+  }, [router.query]);
 
   return (
     <>
@@ -131,14 +135,15 @@ function EditArticles() {
             <Card>
               <Card.Body>
                 {" "}
-                <Form>
+                <Form onSubmit={handleUploadArtImg} id="atrForm">
                   <Form.Group className="mb-3">
                     <Form.Label>ARTICLE NAME</Form.Label>
                     <Form.Control
                       type="text"
-                      name="articleName"
+                      name="title"
                       onChange={handleChange}
-                      value={article.articleName}
+                      value={article.title}
+                      required
                     />
                   </Form.Group>
                   <Form.Group className="mb-3">
@@ -146,17 +151,20 @@ function EditArticles() {
                     <Form.Label>ARTICLE BODY</Form.Label>
                     <Form.Control
                       as="textarea"
-                      name="articleBody"
-                      value={article.articleBody}
+                      name="body"
+                      value={article.body}
+                      rows={10}
                       onChange={handleChange}
+                      required
                     />
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>ARTICLE CATEGORY</Form.Label>
                     <Form.Select
-                      name="articleCategory"
+                      required
+                      name="category"
                       onChange={handleChange}
-                      value={article.articleCategory}
+                      value={article.category}
                     >
                       <option value="LOREM">LOREM</option>
                       <option value="IPSUM">IPSUM</option>
@@ -213,8 +221,9 @@ function EditArticles() {
               />
               <Button
                 className="bg-clr m-2 shadow"
-                disabled={isUpload}
-                onClick={handleUploadArtImg}
+                disabled={isUpload || images.length === 0}
+                type="submit"
+                form="atrForm"
               >
                 Upload
               </Button>

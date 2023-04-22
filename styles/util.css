@@ -162,3 +162,7 @@ a:hover {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
+.dropdown-toggle::after {
+  display: none !important;
+}

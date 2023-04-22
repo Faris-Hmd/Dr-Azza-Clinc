@@ -28,6 +28,6 @@ export default async function handler(req, res) {
       id: artecle.id,
     };
   });
-  console.log(articles);
+  // console.log(articles);
   res.status(200).json(articles);
 }

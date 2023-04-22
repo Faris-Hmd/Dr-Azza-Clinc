@@ -4,13 +4,13 @@ import { baseUrl } from "../_app";
 import { useRouter } from "next/router";
 import SpinnerLoading from "../../component/Spinner";
 
-function Post() {
-  const roter = useRouter();
+function Article() {
+  const router = useRouter();
   const [article, setArticle] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
   async function getArt() {
-    fetch(`${baseUrl}/api/getArt?artId=${roter.query.artId}`)
+    fetch(`${baseUrl}/api/getArt?artId=${router.query.artId}`)
       .then((res) => res.json())
       .then((data) => {
         setArticle(data);
@@ -19,9 +19,9 @@ function Post() {
   }
 
   useEffect(() => {
-    if (!roter.query.artId) return;
+    if (!router.query.artId) return;
     getArt();
-  }, [roter.query.artId]);
+  }, [router.query.artId]);
 
   useEffect(() => window.scrollTo(0, 0), []);
 
@@ -30,15 +30,19 @@ function Post() {
       {isLoading && <SpinnerLoading />}
       {!isLoading && (
         <Container className="full p-0">
-          <Col className="rounded mb-2 bg-sec p-0" xs={12} lg={10}>
+          <Col className="w-100"></Col>
+          <Col className="rounde mb-2 bg-sec p-0" xs={12} lg={10}>
             <Card>
               {/* <Card.Header>title</Card.Header> */}
-              <Card.Body>
-                <Card.Title>{article.title}</Card.Title>
+              <Card.Body className="p-0">
+                <Card.Title className="p-2 pt-3">{article.title}</Card.Title>
+
                 <Card.Img src={article.atricleImgs[0].url} height={"300px"} />
-                <Card.Text>{article.body}</Card.Text>
-                <Card.Title>SPORTS NUTRITION EDUCATION</Card.Title>
-                <Card.Text>
+                <Card.Text className="p-2">{article.body}</Card.Text>
+                <Card.Title className="p-2">
+                  SPORTS NUTRITION EDUCATION
+                </Card.Title>
+                <Card.Text className="p-2">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
                   alias earum libero ex adipisci tenetur illum saepe
                   reprehenderit voluptatem explicabo non nemo hic molestiae,
@@ -61,4 +65,4 @@ function Post() {
   );
 }
 
-export default Post;
+export default Article;

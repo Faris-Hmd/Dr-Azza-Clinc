@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Card, Carousel, Col, Container, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { app, db } from "../firebase/firebase";
+import { useRouter } from "next/router";
 
 function AddBlog() {
+  const router = useRouter();
   const [isUpload, setIsUpload] = useState(false);
   const [images, setImgs] = useState([]);
   const [atricleImgs, setAtricleImgs] = useState([]);
@@ -76,9 +78,12 @@ function AddBlog() {
         // date: serverTimestamp(),
       });
       console.log("Document written with ID: ", docRef.id);
-      setIsUpload(false);
       setAtricleImgs([]);
       toast.success("Upload done");
+      setTimeout(() => {
+        setIsUpload(false);
+        router.push("/Article/" + docRef.id);
+      }, 3000);
     } catch (e) {
       setIsUpload(false);
       setAtricleImgs([]);
@@ -90,7 +95,6 @@ function AddBlog() {
     if (atricleImgs.length === 0) return;
     if (atricleImgs.length === images.length) {
       uploadArticle();
-      // nav("/");
     }
   }, [atricleImgs]); // eslint-disable-line
 

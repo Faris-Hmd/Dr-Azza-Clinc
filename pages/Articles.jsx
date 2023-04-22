@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Card, Col, Container, Dropdown, Row } from "react-bootstrap";
 import Link from "next/link";
-import { BsPlus } from "react-icons/bs";
+import { BsPlus, BsThreeDotsVertical } from "react-icons/bs";
 import { baseUrl } from "./_app";
 import SpinnerLoading from "../component/Spinner";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 function Articles() {
   const [articles, setArticle] = useState();
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(true);
-  async function getArt() {
+  async function getArts() {
+    setIsLoading(true);
     fetch(`${baseUrl}/api/getArts?keyword=all`)
       .then((res) => res.json())
       .then((data) => {
@@ -17,8 +22,17 @@ function Articles() {
       });
   }
 
+  async function handleDelete(artId) {
+    fetch(`${baseUrl}/api/getArt?artId=${artId}`, {
+      method: "delete",
+    }).then(() => {
+      toast.success("Delete Done");
+      getArts();
+    });
+  }
+
   useEffect(() => {
-    getArt();
+    getArts();
   }, []);
 
   useEffect(() => window.scrollTo(0, 0), []);
@@ -34,21 +48,49 @@ function Articles() {
               className="p-0 m-2"
               style={{ width: "160px" }}
             >
-              <Button className="bg-clr-green shadow">
+              <Button className="bg-clr shadow">
                 Add Article
                 <BsPlus size={"25px"} className="ms-2" />
               </Button>
             </Link>
           </Row>
           <Row>
-            <Container className="flex-r p-0 gap-2">
+            <Container className="flex-r gap-2">
               {articles.map((article) => {
                 return (
                   <Col className="post rounded mb-2 bg-sec fc-b" xs={12} lg={5}>
                     <Card>
                       {/* <Card.Header>{title}</Card.Header> */}
                       <Card.Body>
-                        <Card.Title>{article.title}</Card.Title>
+                        <Container className="p-0 flex-r">
+                          <Col xs={11}>
+                            <Card.Title>{article.title}</Card.Title>
+                          </Col>
+                          <Col xs={1}>
+                            <Dropdown>
+                              <Dropdown.Toggle variant="" className="mb-3">
+                                <BsThreeDotsVertical />
+                              </Dropdown.Toggle>
+
+                              <Dropdown.Menu>
+                                <Dropdown.Item
+                                  href="#/action-1"
+                                  onClick={() =>
+                                    router.push("/EditArticle/" + article.id)
+                                  }
+                                >
+                                  Edit
+                                </Dropdown.Item>
+                                <Dropdown.Item
+                                  href="#/action-2"
+                                  onClick={() => handleDelete(article.id)}
+                                >
+                                  Delete
+                                </Dropdown.Item>
+                              </Dropdown.Menu>
+                            </Dropdown>
+                          </Col>
+                        </Container>
                         <Card.Img src={article.img} height={"270px"} />
                         <Card.Text>{article.body}</Card.Text>
                         <Link href={`Article/${article.id}`}>
