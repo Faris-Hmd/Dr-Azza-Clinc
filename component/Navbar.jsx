@@ -27,7 +27,7 @@ const Navbar = () => {
           <Container className="p-0 border rounded">
             <Col xs={12} onClick={handleClose}>
               <Link href="/" className="w-100 Link hover flex-r p-3 border-b">
-                <BsHouseDoor size={"25px"} className="ms-3" />
+                <BsHouseDoor size={"25px"} className="me-3" />
                 Home
               </Link>
             </Col>
@@ -36,14 +36,14 @@ const Navbar = () => {
                 href="/Products"
                 className="w-100 Link hover flex-r p-3 border-b"
               >
-                <BsBasket size={"25px"} className="ms-3" />
+                <BsBasket size={"25px"} className="me-3" />
                 Shop
               </Link>
             </Col>{" "}
             <Col xs={12} onClick={handleClose}>
-              <Link href="/Blog" className="w-100 Link hover flex-r p-3">
-                <BsBook size={"25px"} className="ms-3" />
-                Blog
+              <Link href="/Articles" className="w-100 Link hover flex-r p-3">
+                <BsBook size={"25px"} className="me-3" />
+                Articles
               </Link>
             </Col>
           </Container>

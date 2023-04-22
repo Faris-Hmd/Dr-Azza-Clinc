@@ -108,7 +108,7 @@ function AddBlog() {
                 <Form.Label>ARTICLE NAME</Form.Label>
                 <Form.Control
                   type="text"
-                  name="articleName"
+                  name="title"
                   required
                   onChange={handleChange}
                 />
@@ -118,7 +118,7 @@ function AddBlog() {
                 <Form.Label>ARTICLE BODY</Form.Label>
                 <Form.Control
                   as="textarea"
-                  name="articleBody"
+                  name="body"
                   required
                   rows={5}
                   onChange={handleChange}
@@ -126,11 +126,7 @@ function AddBlog() {
               </Form.Group>
               <Form.Group>
                 <Form.Label>ARTICLE CATEGORY</Form.Label>
-                <Form.Select
-                  name="articleCategory"
-                  onChange={handleChange}
-                  required
-                >
+                <Form.Select name="category" onChange={handleChange} required>
                   <option value="LOREM">LOREM</option>
                   <option value="IPSUM">IPSUM</option>
                   <option value="DOLLOR">DOLLOR</option>
@@ -186,7 +182,7 @@ function AddBlog() {
           />
           <Button
             className="bg-clr m-2 shadow"
-            disabled={isUpload}
+            disabled={isUpload || images.length === 0}
             type="submit"
             form="atrForm"
           >
