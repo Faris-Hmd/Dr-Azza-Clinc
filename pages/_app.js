@@ -18,7 +18,7 @@ if (process && process.env.NODE_ENV === "development") {
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <ToastContainer autoClose={3000} position={"top-center"} rtl={true} />
+      <ToastContainer autoClose={3000} position={"top-center"} />
       <UserProvider>
         <Layout>
           <Component {...pageProps} />

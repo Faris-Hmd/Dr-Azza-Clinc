@@ -7,12 +7,12 @@ function AddBlog() {
   const [isUpload, setIsUpload] = useState(false);
   const [images, setImgs] = useState([]);
   const [atricleImgs, setAtricleImgs] = useState([]);
-  const [formData, setFormData] = useState({});
+  const [article, setArticle] = useState({});
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     // console.log(name, " ", value);
-    setFormData((prevData) => {
+    setArticle((prevData) => {
       return { ...prevData, [name]: value };
     });
   };
@@ -30,16 +30,11 @@ function AddBlog() {
     }
   };
   const removeImage = (url) => {
-    const newImg = [];
-    images.forEach((img) => {
-      // console.log(img);
-      if (img.url !== url) newImg.push(img);
-    });
-    setImgs(newImg);
+    setImgs(images.filter((img) => img.url !== url));
   };
   ////////////////////////////////////////////////////
 
-  const handleUploadProductImg = async (e) => {
+  const handleUploadArtImg = async (e) => {
     const { getDownloadURL, ref, uploadBytesResumable, getStorage } =
       await import("firebase/storage");
     const storage = getStorage(app);
@@ -76,7 +71,7 @@ function AddBlog() {
     const { addDoc, collection } = await import("firebase/firestore");
     try {
       const docRef = await addDoc(collection(db, "articles"), {
-        ...formData,
+        ...article,
         atricleImgs: atricleImgs,
         // date: serverTimestamp(),
       });
@@ -108,13 +103,13 @@ function AddBlog() {
         <Card>
           <Card.Body>
             {" "}
-            <Form>
+            <Form onSubmit={handleUploadArtImg} id="atrForm">
               <Form.Group className="mb-3">
-                {" "}
                 <Form.Label>ARTICLE NAME</Form.Label>
                 <Form.Control
                   type="text"
                   name="articleName"
+                  required
                   onChange={handleChange}
                 />
               </Form.Group>
@@ -124,12 +119,18 @@ function AddBlog() {
                 <Form.Control
                   as="textarea"
                   name="articleBody"
+                  required
+                  rows={5}
                   onChange={handleChange}
                 />
               </Form.Group>
               <Form.Group>
                 <Form.Label>ARTICLE CATEGORY</Form.Label>
-                <Form.Select name="articleCategory" onChange={handleChange}>
+                <Form.Select
+                  name="articleCategory"
+                  onChange={handleChange}
+                  required
+                >
                   <option value="LOREM">LOREM</option>
                   <option value="IPSUM">IPSUM</option>
                   <option value="DOLLOR">DOLLOR</option>
@@ -186,7 +187,8 @@ function AddBlog() {
           <Button
             className="bg-clr m-2 shadow"
             disabled={isUpload}
-            onClick={handleUploadProductImg}
+            type="submit"
+            form="atrForm"
           >
             Upload
           </Button>
