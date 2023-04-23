@@ -46,7 +46,7 @@ function Articles(prop) {
   }
 
   useEffect(() => {
-    // getArts();
+    getArts();
   }, []);
 
   useEffect(() => window.scrollTo(0, 0), []);
