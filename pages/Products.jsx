@@ -15,11 +15,11 @@ import { baseUrl } from "./_app";
 import SpinnerLoading from "../component/SpinnerLoading";
 import { toast } from "react-toastify";
 
-function Products(props) {
-  const [products, setProduct] = useState(props.products);
+function Products() {
+  const [products, setProduct] = useState();
   const router = useRouter();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [productId, setProductId] = useState("");
   const [show, setShow] = useState(false);
 
@@ -27,7 +27,7 @@ function Products(props) {
   const handleShow = () => setShow(true);
 
   async function getProducts() {
-    // setIsLoading(true);
+    setIsLoading(true);
     fetch(`${baseUrl}/api/products?keyword=all`)
       .then((res) => res.json())
       .then((data) => {
@@ -162,13 +162,13 @@ function Products(props) {
 
 export default Products;
 
-export async function getStaticProps() {
-  const data = await fetch(`${baseUrl}/api/products?keyword=all`);
-  const products = await data.json();
+// export async function getStaticProps() {
+//   const data = await fetch(`${baseUrl}/api/products?keyword=all`);
+//   const products = await data.json();
 
-  return {
-    props: {
-      products: products,
-    },
-  };
-}
+//   return {
+//     props: {
+//       products: products,
+//     },
+//   };
+// }
