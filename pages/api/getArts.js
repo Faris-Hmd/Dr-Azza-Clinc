@@ -23,11 +23,13 @@ export default async function handler(req, res) {
 
   const articles = querySnapShot.docs.map((artecle) => {
     return {
-      ...artecle.data(),
+      title: artecle.data().title,
+      category: artecle.data().category,
+      breif: artecle.data().breif,
       img: artecle.data().atricleImgs[0].url,
       id: artecle.id,
     };
   });
-  // console.log(articles);
+  console.log(articles);
   res.status(200).json(articles);
 }
