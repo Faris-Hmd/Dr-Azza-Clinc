@@ -27,7 +27,7 @@ function Articles(prop) {
   const handleShow = () => setShow(true);
 
   async function getArts() {
-    setIsLoading(true);
+    // setIsLoading(true);
     fetch(`${baseUrl}/api/getArts?keyword=all`)
       .then((res) => res.json())
       .then((data) => {
