@@ -10,10 +10,12 @@ function AddBlog() {
   const [images, setImgs] = useState([]);
   const [atricleImgs, setAtricleImgs] = useState([]);
   const [article, setArticle] = useState({});
+  const [arr, setArr] = useState([]);
+  const [arrLen, setArrLen] = useState(3);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    // console.log(name, " ", value);
+    console.log(name, " ", value);
     setArticle((prevData) => {
       return { ...prevData, [name]: value };
     });
@@ -75,6 +77,7 @@ function AddBlog() {
       const docRef = await addDoc(collection(db, "articles"), {
         ...article,
         atricleImgs: atricleImgs,
+        secNo: arrLen,
         // date: serverTimestamp(),
       });
       console.log("Document written with ID: ", docRef.id);
@@ -98,15 +101,21 @@ function AddBlog() {
     }
   }, [atricleImgs]); // eslint-disable-line
 
+  useEffect(() => {
+    setArr([]);
+    for (let index = 1; index <= arrLen; index++) {
+      setArr((prev) => [...prev, index]);
+    }
+  }, [arrLen]);
+
   return (
-    <Container className="p-0 ful">
-      <Col className="">
-        <h1 className="p-2 m-0">ADD ATRECLES</h1>
-      </Col>
-      <Col xs={12} lg={7}>
+    <Container className="p-0 ful flex-r align-items-start justify-content-around">
+      <Col xs={12} lg={6}>
         <Card>
+          <Card.Header>
+            <h2 className="m-0">ADD ATRECLE</h2>
+          </Card.Header>
           <Card.Body>
-            {" "}
             <Form onSubmit={handleUploadArtImg} id="atrForm">
               <Form.Group className="mb-3">
                 <Form.Label>ARTICLE NAME</Form.Label>
@@ -118,17 +127,25 @@ function AddBlog() {
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                {" "}
-                <Form.Label>ARTICLE BODY</Form.Label>
+                <Form.Label>BREIF</Form.Label>
                 <Form.Control
                   as="textarea"
-                  name="body"
+                  name="breif"
                   required
-                  rows={5}
                   onChange={handleChange}
                 />
               </Form.Group>
-              <Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>SECTION NUMBER</Form.Label>
+                <Form.Control
+                  type="number"
+                  value={arrLen}
+                  required
+                  min={1}
+                  onChange={(e) => setArrLen(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>ARTICLE CATEGORY</Form.Label>
                 <Form.Select name="category" onChange={handleChange} required>
                   <option value="LOREM">LOREM</option>
@@ -136,12 +153,40 @@ function AddBlog() {
                   <option value="DOLLOR">DOLLOR</option>
                 </Form.Select>
               </Form.Group>
+
+              {arr.map((index) => {
+                return (
+                  <>
+                    <Form.Group className="mb-3">
+                      <Form.Label>SECTION {index} TITLE</Form.Label>
+                      <Form.Control
+                        type="text"
+                        name={"section-" + [index] + "-title"}
+                        required
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                    <Form.Group className="mb-3">
+                      <Form.Label>SECTION {index} BODY</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        name={"section-" + [index] + "-body"}
+                        required
+                        rows={5}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                    <hr />
+                  </>
+                );
+              })}
             </Form>
           </Card.Body>
 
           {images.length > 0 && (
             <Carousel>
               {images.map((img, index) => {
+                console.log(index);
                 return (
                   <Carousel.Item
                     onDoubleClick={() => removeImage(img.url)}
@@ -192,6 +237,35 @@ function AddBlog() {
           >
             Upload
           </Button>
+        </Card>
+      </Col>
+
+      <Col xs={12} lg={5}>
+        <Card>
+          <Card.Header> {<h2 className="m-0">PREVIEW</h2>}</Card.Header>
+          <Card.Body className="p-0">
+            <Card.Title className="p-2 pt-3">{article.title}</Card.Title>
+
+            {images.length > 0 && (
+              <Card.Img src={images[0].url} height={"300px"} />
+            )}
+            <Card.Subtitle className="p-2">{article.breif}</Card.Subtitle>
+            {arr.map((index) => {
+              return (
+                <>
+                  <Card.Title className="p-2">
+                    {article?.[`section-${[index]}-title`]}
+                  </Card.Title>
+                  {images[index - 0] && (
+                    <Card.Img src={images[index - 0].url} height={"300px"} />
+                  )}
+                  <Card.Text className="p-2">
+                    {article?.[`section-${[index]}-body`]}
+                  </Card.Text>
+                </>
+              );
+            })}
+          </Card.Body>
         </Card>
       </Col>
     </Container>

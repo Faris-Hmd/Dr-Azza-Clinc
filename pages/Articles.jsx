@@ -122,7 +122,7 @@ function Articles(prop) {
                           </Col>
                         </Container>
                         <Card.Img src={article.img} height={"270px"} />
-                        <Card.Text>{article.body}</Card.Text>
+                        <Card.Text>{article?.breif}</Card.Text>
                         <Card.Text className="text-muted">
                           {article.category}
                         </Card.Text>
