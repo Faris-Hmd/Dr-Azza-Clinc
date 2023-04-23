@@ -13,6 +13,8 @@ function EditArticles() {
   const [images, setImgs] = useState([]);
   const [atricleImgs, setAtricleImgs] = useState([]);
   const [article, setArticle] = useState({});
+  const [arr, setArr] = useState([]);
+  const [arrLen, setArrLen] = useState(1);
 
   function getArticle() {
     fetch(baseUrl + "/api/getArt?artId=" + router.query.artId)
@@ -20,6 +22,7 @@ function EditArticles() {
       .then((data) => {
         setIsLoading(false);
         setArticle(data);
+        setArrLen(data.secNo);
         setImgs(data.atricleImgs);
       });
   }
@@ -96,7 +99,11 @@ function EditArticles() {
           "Content-Type": "application/json",
           // 'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: JSON.stringify({ ...article, atricleImgs: atricleImgs }),
+        body: JSON.stringify({
+          ...article,
+          atricleImgs: atricleImgs,
+          secNo: arrLen,
+        }),
       }).then(() => {
         setAtricleImgs([]);
         toast.success("Edit done");
@@ -123,21 +130,27 @@ function EditArticles() {
     getArticle();
   }, [router.query]);
 
+  useEffect(() => {
+    setArr([]);
+    for (let index = 1; index <= arrLen; index++) {
+      setArr((prev) => [...prev, index]);
+    }
+  }, [arrLen]);
+
   return (
     <>
       {isLoading && <SpinnerLoading />}
       {!isLoading && (
-        <Container className="p-0 ful">
-          <Col className="">
-            <h1 className="p-2 m-0">EDITING ATRECLE</h1>
-          </Col>
-          <Col xs={12} lg={7}>
+        <Container className="flex-r align-items-start justify-content-around mt-1">
+          <Col xs={12} lg={6}>
             <Card>
+              <Card.Header>
+                <h2 className="m-0">EDITING ATRECLE</h2>
+              </Card.Header>
               <Card.Body>
-                {" "}
                 <Form onSubmit={handleUploadArtImg} id="atrForm">
                   <Form.Group className="mb-3">
-                    <Form.Label>ARTICLE NAME</Form.Label>
+                    <Form.Label>ARTICLE TITLE</Form.Label>
                     <Form.Control
                       type="text"
                       name="title"
@@ -147,15 +160,13 @@ function EditArticles() {
                     />
                   </Form.Group>
                   <Form.Group className="mb-3">
-                    {" "}
-                    <Form.Label>ARTICLE BODY</Form.Label>
+                    <Form.Label>BREIF</Form.Label>
                     <Form.Control
                       as="textarea"
-                      name="body"
-                      value={article.body}
-                      rows={10}
-                      onChange={handleChange}
+                      name="breif"
                       required
+                      onChange={handleChange}
+                      value={article.breif}
                     />
                   </Form.Group>
                   <Form.Group>
@@ -171,6 +182,45 @@ function EditArticles() {
                       <option value="DOLLOR">DOLLOR</option>
                     </Form.Select>
                   </Form.Group>
+
+                  <Form.Group className="mb-3">
+                    <Form.Label>SECTION NUMBER</Form.Label>
+                    <Form.Control
+                      type="number"
+                      value={arrLen}
+                      required
+                      min={1}
+                      onChange={(e) => setArrLen(e.target.value)}
+                    />
+                  </Form.Group>
+                  {arr.map((index) => {
+                    return (
+                      <>
+                        <Form.Group className="mb-3">
+                          <Form.Label>SECTION {index} TITLE</Form.Label>
+                          <Form.Control
+                            type="text"
+                            name={"section-" + [index] + "-title"}
+                            value={article?.[`section-${[index]}-title`]}
+                            required
+                            onChange={handleChange}
+                          />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                          <Form.Label>SECTION {index} BODY</Form.Label>
+                          <Form.Control
+                            as="textarea"
+                            name={"section-" + [index] + "-body"}
+                            required
+                            rows={5}
+                            onChange={handleChange}
+                            value={article?.[`section-${[index]}-body`]}
+                          />
+                        </Form.Group>
+                        <hr />
+                      </>
+                    );
+                  })}
                 </Form>
               </Card.Body>
 
@@ -219,13 +269,44 @@ function EditArticles() {
                 type="file"
                 onChange={handleImgChange}
               />
+            </Card>
+          </Col>
+          <Col xs={12} lg={5}>
+            <Card>
+              <Card.Header> {<h2 className="m-0">PREVIEW</h2>}</Card.Header>
+              <Card.Body className="p-0">
+                <Card.Title className="p-2 pt-3">{article.title}</Card.Title>
+
+                {images.length > 0 && (
+                  <Card.Img src={images[0].url} height={"300px"} />
+                )}
+                <Card.Subtitle className="p-2">{article.breif}</Card.Subtitle>
+                {arr.map((index) => {
+                  return (
+                    <>
+                      <Card.Title className="p-2">
+                        {article?.[`section-${[index]}-title`]}
+                      </Card.Title>
+                      {images[index - 0] && (
+                        <Card.Img
+                          src={images[index - 0].url}
+                          height={"300px"}
+                        />
+                      )}
+                      <Card.Text className="p-2">
+                        {article?.[`section-${[index]}-body`]}
+                      </Card.Text>
+                    </>
+                  );
+                })}
+              </Card.Body>
               <Button
                 className="bg-clr m-2 shadow"
                 disabled={isUpload || images.length === 0}
                 type="submit"
                 form="atrForm"
               >
-                Upload
+                Upload Changes
               </Button>
             </Card>
           </Col>

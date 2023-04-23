@@ -4,19 +4,19 @@ import { toast } from "react-toastify";
 import { app, db } from "../firebase/firebase";
 import { useRouter } from "next/router";
 
-function AddBlog() {
+function AddProduct() {
   const router = useRouter();
   const [isUpload, setIsUpload] = useState(false);
   const [images, setImgs] = useState([]);
-  const [atricleImgs, setAtricleImgs] = useState([]);
-  const [article, setArticle] = useState({});
+  const [productImgs, setProductImgs] = useState([]);
+  const [product, setProduct] = useState({});
   const [arr, setArr] = useState([]);
-  const [arrLen, setArrLen] = useState(3);
+  const [arrLen, setArrLen] = useState(1);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     console.log(name, " ", value);
-    setArticle((prevData) => {
+    setProduct((prevData) => {
       return { ...prevData, [name]: value };
     });
   };
@@ -44,7 +44,7 @@ function AddBlog() {
     const storage = getStorage(app);
     e.preventDefault();
     setIsUpload(true);
-    setAtricleImgs([]);
+    setProductImgs([]);
     images.forEach((img) => {
       const imgRef = ref(storage, img.productImgFile.name);
       const uploadTask = uploadBytesResumable(imgRef, img.productImgFile);
@@ -63,43 +63,43 @@ function AddBlog() {
           // Handle successful uploads on complete
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             console.log("File available at", downloadURL);
-            setAtricleImgs((prevImgs) => [...prevImgs, { url: downloadURL }]);
+            setProductImgs((prevImgs) => [...prevImgs, { url: downloadURL }]);
           });
         }
       );
     });
   };
   //////////////////////////////////////////////////////////////////////////////////////////////
-  const uploadArticle = async () => {
+  const uploadProduct = async () => {
     console.log("upload");
     const { addDoc, collection } = await import("firebase/firestore");
     try {
-      const docRef = await addDoc(collection(db, "articles"), {
-        ...article,
-        atricleImgs: atricleImgs,
+      const docRef = await addDoc(collection(db, "products"), {
+        ...product,
+        productImgs: productImgs,
         secNo: arrLen,
         // date: serverTimestamp(),
       });
       console.log("Document written with ID: ", docRef.id);
-      setAtricleImgs([]);
+      setProductImgs([]);
       toast.success("Upload done");
       setTimeout(() => {
         setIsUpload(false);
-        router.push("/Article/" + docRef.id);
+        router.push("/Product/" + docRef.id);
       }, 3000);
     } catch (e) {
       setIsUpload(false);
-      setAtricleImgs([]);
+      setProductImgs([]);
       toast.error("Error uploading");
       console.error("Error adding document: ", e);
     }
   };
   useEffect(() => {
-    if (atricleImgs.length === 0) return;
-    if (atricleImgs.length === images.length) {
-      uploadArticle();
+    if (productImgs.length === 0) return;
+    if (productImgs.length === images.length) {
+      uploadProduct();
     }
-  }, [atricleImgs]); // eslint-disable-line
+  }, [productImgs]); // eslint-disable-line
 
   useEffect(() => {
     setArr([]);
@@ -113,15 +113,15 @@ function AddBlog() {
       <Col className="mb-1 mt-1" xs={12} lg={6}>
         <Card>
           <Card.Header>
-            <h2 className="m-0">ADD ATRECLE</h2>
+            <h2 className="m-0">ADD PRODUCT</h2>
           </Card.Header>
           <Card.Body>
             <Form onSubmit={handleUploadArtImg} id="atrForm">
               <Form.Group className="mb-3">
-                <Form.Label>ARTICLE NAME</Form.Label>
+                <Form.Label>PRODUCT NAME</Form.Label>
                 <Form.Control
                   type="text"
-                  name="title"
+                  name="name"
                   required
                   onChange={handleChange}
                 />
@@ -133,7 +133,28 @@ function AddBlog() {
                   name="breif"
                   required
                   onChange={handleChange}
-                  value={article.breif}
+                  value={product.breif}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>COST</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="cost"
+                  required
+                  onChange={handleChange}
+                  value={product.cost}
+                  min={10}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>DESCREPTION</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  name="descreption"
+                  required
+                  onChange={handleChange}
+                  value={product.descreption}
                 />
               </Form.Group>
               <Form.Group className="mb-3">
@@ -147,7 +168,7 @@ function AddBlog() {
                 />
               </Form.Group>
               <Form.Group className="mb-3">
-                <Form.Label>ARTICLE CATEGORY</Form.Label>
+                <Form.Label>PRODUCT CATEGORY</Form.Label>
                 <Form.Select name="category" onChange={handleChange} required>
                   <option value="LOREM">LOREM</option>
                   <option value="IPSUM">IPSUM</option>
@@ -165,7 +186,7 @@ function AddBlog() {
                         name={"section-" + [index] + "-title"}
                         required
                         onChange={handleChange}
-                        value={article?.[`section-${[index]}-title`]}
+                        value={product?.[`section-${[index]}-title`]}
                       />
                     </Form.Group>
                     <Form.Group className="mb-3">
@@ -173,7 +194,7 @@ function AddBlog() {
                       <Form.Control
                         as="textarea"
                         name={"section-" + [index] + "-body"}
-                        value={article?.[`section-${[index]}-body`]}
+                        value={product?.[`section-${[index]}-body`]}
                         required
                         rows={5}
                         onChange={handleChange}
@@ -237,26 +258,43 @@ function AddBlog() {
 
       <Col xs={12} lg={5}>
         <Card>
-          <Card.Header> {<h2 className="m-0">PREVIEW</h2>}</Card.Header>
-          <Card.Body className="p-0">
-            <Card.Title className="p-2 pt-3">{article.title}</Card.Title>
+          <Card.Header>
+            <h2 className="m-0">PREVIEW</h2>
+          </Card.Header>
+          <Carousel>
+            {images.map((img) => {
+              return (
+                <Carousel.Item>
+                  <img
+                    height={"250px"}
+                    className="d-block w-100"
+                    src={img.url}
+                    alt="First slide"
+                  />
+                </Carousel.Item>
+              );
+            })}
+          </Carousel>
+          {/* <Card.Img variant="top" src={`/images/fruits.webp`} height={"250px"} /> */}
+          <Card.Body>
+            <Card.Title>{product.name}</Card.Title>
+            <Card.Subtitle className="mb-2 text-success">
+              {product.cost}
+            </Card.Subtitle>
+            <Card.Subtitle className="mb-2 text-muted">
+              {product.category}
+            </Card.Subtitle>
+            <Card.Title>Descreption</Card.Title>
+            <Card.Text>{product.descreption}</Card.Text>
 
-            {images.length > 0 && (
-              <Card.Img src={images[0].url} height={"300px"} />
-            )}
-            <Card.Subtitle className="p-2">{article.breif}</Card.Subtitle>
             {arr.map((index) => {
               return (
                 <>
-                  <Card.Title className="p-2">
-                    {article?.[`section-${[index]}-title`]}
+                  <Card.Title>
+                    {product?.[`section-${[index]}-title`]}
                   </Card.Title>
-                  {images[index - 0] && (
-                    <Card.Img src={images[index - 0].url} height={"300px"} />
-                  )}
-                  <Card.Text className="p-2">
-                    {article?.[`section-${[index]}-body`]}
-                  </Card.Text>
+
+                  <Card.Text>{product?.[`section-${[index]}-body`]}</Card.Text>
                 </>
               );
             })}
@@ -275,4 +313,4 @@ function AddBlog() {
   );
 }
 
-export default AddBlog;
+export default AddProduct;

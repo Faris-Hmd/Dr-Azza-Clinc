@@ -41,7 +41,6 @@ function Article() {
       {isLoading && <SpinnerLoading />}
       {!isLoading && (
         <Container className="full p-0">
-          <Col className="w-100"></Col>
           <Col className="rounde mb-2 bg-sec p-0" xs={12} lg={10}>
             <Card>
               {/* <Card.Header>title</Card.Header> */}
