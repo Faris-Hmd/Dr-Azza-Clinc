@@ -66,6 +66,7 @@ function Articles(prop) {
         </Modal.Footer>
       </Modal>
       {isLoading && <SpinnerLoading />}
+      {isLoading && <SpinnerLoading />}
       {!isLoading && (
         <Container>
           <Row className="flex-r justify-content-between p-0">
