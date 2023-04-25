@@ -181,13 +181,18 @@ function AddProduct() {
                   <>
                     <Form.Group className="mb-3">
                       <Form.Label>SECTION {index} TITLE</Form.Label>
-                      <Form.Control
+                      <Form.Select
                         type="text"
                         name={"section-" + [index] + "-title"}
                         required
                         onChange={handleChange}
                         value={product?.[`section-${[index]}-title`]}
-                      />
+                      >
+                        <option value="DETAILS">DETAILS</option>
+                        <option value="BREIF">BREIF</option>
+                        <option value="USAGE">USAGE</option>
+                        <option value="CAUTION">CAUTION</option>
+                      </Form.Select>{" "}
                     </Form.Group>
                     <Form.Group className="mb-3">
                       <Form.Label>SECTION {index} BODY</Form.Label>
