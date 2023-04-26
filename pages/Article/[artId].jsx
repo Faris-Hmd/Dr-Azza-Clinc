@@ -9,14 +9,14 @@ function Article() {
   const [article, setArticle] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [arr, setArr] = useState([]);
-  const [arrLen, setArrLen] = useState(1);
+  const [secNo, setSecNo] = useState(1);
 
   async function getArt() {
     fetch(`${baseUrl}/api/getArt?artId=${router.query.artId}`)
       .then((res) => res.json())
       .then((data) => {
         setArticle(data);
-        setArrLen(data.secNo);
+        setSecNo(data.secNo);
         setIsLoading(false);
         console.log(data);
       });
@@ -24,10 +24,10 @@ function Article() {
 
   useEffect(() => {
     setArr([]);
-    for (let index = 1; index <= arrLen; index++) {
+    for (let index = 1; index <= secNo; index++) {
       setArr((prev) => [...prev, index]);
     }
-  }, [arrLen]);
+  }, [secNo]);
 
   useEffect(() => {
     if (!router.query.artId) return;

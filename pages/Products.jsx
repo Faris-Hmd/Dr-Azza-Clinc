@@ -17,8 +17,6 @@ import { toast } from "react-toastify";
 
 function Products() {
   const [products, setProduct] = useState();
-  const router = useRouter();
-
   const [isLoading, setIsLoading] = useState(true);
   const [productId, setProductId] = useState("");
   const [show, setShow] = useState(false);
@@ -77,11 +75,10 @@ function Products() {
               <Link
                 href={"/AddProduct"}
                 className="p-0 m-0"
-                style={{ width: "150px" }}
+                style={{ width: "160px" }}
               >
                 <Button className="bg-clr shadow">
-                  Add Product
-                  <BsPlus size={"25px"} className="ms-2" />
+                  <BsPlus size={"25px"} className="m-2" />
                 </Button>
               </Link>
             </Col>
@@ -115,15 +112,15 @@ function Products() {
 
                             <Dropdown.Menu>
                               <Dropdown.Item
-                                href="#/action-1"
-                                onClick={() =>
-                                  router.push("/Editproduct/" + product.id)
-                                }
+                                href={"EditProduct/" + product.id}
+                                // onClick={() =>
+                                //   router.push("/Editproduct/" + product.id)
+                                // }
                               >
                                 Edit
                               </Dropdown.Item>
                               <Dropdown.Item
-                                href="#/action-2"
+                                href="#delete"
                                 onClick={() => {
                                   handleShow();
                                   setProductId(product.id);
@@ -141,7 +138,7 @@ function Products() {
                       <Card.Subtitle className="mb-2 text-muted">
                         {product.category}
                       </Card.Subtitle>
-                      <Card.Text>{product.descreption}</Card.Text>{" "}
+                      <Card.Text>{product.breif}</Card.Text>
                       <Link
                         href={`Product/${product.id}`}
                         className="Link bg-clr p-2 rounded shadow"

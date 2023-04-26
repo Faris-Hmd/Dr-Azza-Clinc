@@ -11,7 +11,7 @@ function AddBlog() {
   const [atricleImgs, setAtricleImgs] = useState([]);
   const [article, setArticle] = useState({});
   const [arr, setArr] = useState([]);
-  const [arrLen, setArrLen] = useState(3);
+  const [secNo, setSecNo] = useState(3);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -77,7 +77,7 @@ function AddBlog() {
       const docRef = await addDoc(collection(db, "articles"), {
         ...article,
         atricleImgs: atricleImgs,
-        secNo: arrLen,
+        secNo: secNo,
         // date: serverTimestamp(),
       });
       console.log("Document written with ID: ", docRef.id);
@@ -103,10 +103,10 @@ function AddBlog() {
 
   useEffect(() => {
     setArr([]);
-    for (let index = 1; index <= arrLen; index++) {
+    for (let index = 1; index <= secNo; index++) {
       setArr((prev) => [...prev, index]);
     }
-  }, [arrLen]);
+  }, [secNo]);
 
   return (
     <Container className="flex-r align-items-start justify-content-around">
@@ -140,10 +140,10 @@ function AddBlog() {
                 <Form.Label>SECTION NUMBER</Form.Label>
                 <Form.Control
                   type="number"
-                  value={arrLen}
+                  value={secNo}
                   required
                   min={1}
-                  onChange={(e) => setArrLen(e.target.value)}
+                  onChange={(e) => setSecNo(e.target.value)}
                 />
               </Form.Group>
               <Form.Group className="mb-3">

@@ -25,7 +25,7 @@ export default async function handler(req, res) {
     return {
       name: product.data().name,
       cost: product.data().cost,
-      descreption: product.data().descreption,
+      breif: product.data().breif,
       category: product.data().category,
       img: product.data().productImgs[0].url,
       id: product.id,

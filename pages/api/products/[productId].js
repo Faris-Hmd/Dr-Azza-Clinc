@@ -41,7 +41,7 @@ export default async function handler(req, res) {
 
     case "PUT": {
       const product = req.body;
-      //   console.log(product);
+      console.log(product);
       await setDoc(doc(db, "products", product.id), {
         ...product,
       });

@@ -14,7 +14,7 @@ function EditArticles() {
   const [atricleImgs, setAtricleImgs] = useState([]);
   const [article, setArticle] = useState({});
   const [arr, setArr] = useState([]);
-  const [arrLen, setArrLen] = useState(1);
+  const [secNo, setSecNo] = useState(1);
 
   function getArticle() {
     fetch(baseUrl + "/api/getArt?artId=" + router.query.artId)
@@ -22,7 +22,7 @@ function EditArticles() {
       .then((data) => {
         setIsLoading(false);
         setArticle(data);
-        setArrLen(data.secNo);
+        setSecNo(data.secNo);
         setImgs(data.atricleImgs);
       });
   }
@@ -102,7 +102,7 @@ function EditArticles() {
         body: JSON.stringify({
           ...article,
           atricleImgs: atricleImgs,
-          secNo: arrLen,
+          secNo: secNo,
         }),
       }).then(() => {
         setAtricleImgs([]);
@@ -132,10 +132,10 @@ function EditArticles() {
 
   useEffect(() => {
     setArr([]);
-    for (let index = 1; index <= arrLen; index++) {
+    for (let index = 1; index <= secNo; index++) {
       setArr((prev) => [...prev, index]);
     }
-  }, [arrLen]);
+  }, [secNo]);
 
   return (
     <>
@@ -187,10 +187,10 @@ function EditArticles() {
                     <Form.Label>SECTION NUMBER</Form.Label>
                     <Form.Control
                       type="number"
-                      value={arrLen}
+                      value={secNo}
                       required
                       min={1}
-                      onChange={(e) => setArrLen(e.target.value)}
+                      onChange={(e) => setSecNo(e.target.value)}
                     />
                   </Form.Group>
                   {arr.map((index) => {
