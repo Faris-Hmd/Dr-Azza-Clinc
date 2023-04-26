@@ -5,6 +5,8 @@ import {
   Col,
   Container,
   Dropdown,
+  Form,
+  InputGroup,
   Modal,
   Row,
 } from "react-bootstrap";
@@ -14,6 +16,7 @@ import { baseUrl } from "./_app";
 import SpinnerLoading from "../component/SpinnerLoading";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import { FaFilter, FaSearch } from "react-icons/fa";
 
 function Articles(prop) {
   const [articles, setArticle] = useState(prop.articles);
@@ -22,6 +25,7 @@ function Articles(prop) {
   const [isLoading, setIsLoading] = useState(false);
   const [artId, setArtId] = useState("");
   const [show, setShow] = useState(false);
+  const [keyword, setKeyword] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -34,6 +38,15 @@ function Articles(prop) {
         setArticle(data);
         setIsLoading(false);
       });
+  }
+  async function handleFillterdSearch() {
+    setIsLoading(true);
+    const res = await fetch(`${baseUrl}/api/getArts?keyword=${keyword}`);
+    const data = await res.json();
+    if (res.ok) {
+      setArticle(data);
+      setIsLoading(false);
+    }
   }
 
   async function handleDelete() {
@@ -66,12 +79,42 @@ function Articles(prop) {
         </Modal.Footer>
       </Modal>
       {isLoading && <SpinnerLoading />}
-      {isLoading && <SpinnerLoading />}
       {!isLoading && (
         <Container>
+          {" "}
           <Row className="flex-r justify-content-between p-0">
-            <h1 className="p-2 w-50">ARTICLES</h1>
-            <Link
+            {" "}
+            <Form>
+              <InputGroup className="shadow-sm border rounded">
+                <Form.Control
+                  type="text"
+                  name="keyword"
+                  placeholder="Search what you want"
+                  onChange={(e) => setKeyword(e.target.value)}
+                  className="p-2 rounded border-0"
+                />
+                <Button
+                  className="border-0 bg-sec"
+                  onClick={(e) => {
+                    // handleFillterdSearch(e);
+                  }}
+                >
+                  <FaFilter />
+                </Button>
+                <Button
+                  className="border-0 bg-clr"
+                  disabled={keyword === "null" || keyword === ""}
+                  // variant="outline-secondary"
+                  onClick={(e) => {
+                    handleFillterdSearch(e);
+                  }}
+                >
+                  <FaSearch />
+                </Button>
+              </InputGroup>
+            </Form>
+            <h1 className="p-2">ARTICLES</h1>
+            {/* <Link
               href={"/AddArticle"}
               className="p-0 m-0"
               style={{ width: "150px" }}
@@ -80,7 +123,7 @@ function Articles(prop) {
                 Add Article
                 <BsPlus size={"25px"} className="ms-2" />
               </Button>
-            </Link>
+            </Link> */}
           </Row>
           <Row>
             <Container className="flex-r gap-2">

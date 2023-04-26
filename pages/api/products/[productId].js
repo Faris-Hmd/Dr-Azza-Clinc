@@ -28,7 +28,9 @@ export default async function handler(req, res) {
         const product = req.body;
         querySnapShot = await addDoc(collection(db, "products"), {
           ...product,
+          keywords: [product.name, product.category, product.cost],
         });
+
         res.status(200).json({ msg: "Adding Done" });
       }
       break;
@@ -44,6 +46,7 @@ export default async function handler(req, res) {
       console.log(product);
       await setDoc(doc(db, "products", product.id), {
         ...product,
+        keywords: [product.name, product.category, product.cost],
       });
       res.status(200).json({ msg: "edit Done" });
     }

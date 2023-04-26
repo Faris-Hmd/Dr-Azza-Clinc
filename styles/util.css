@@ -8,7 +8,7 @@
   transform: scale(1);
 }
 .bg-sec {
-  background-color: var(--sec-clr);
+  background-color: var(--sec-clr) !important;
 }
 .bg-liner {
   background: linear-gradient(

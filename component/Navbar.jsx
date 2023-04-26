@@ -2,7 +2,7 @@ import { Button, Col, Container, Offcanvas } from "react-bootstrap";
 import styles from "../styles/Navbar.module.css";
 import { useState } from "react";
 import { FaBars, FaHome } from "react-icons/fa";
-import { BsBasket, BsBook, BsHouseDoor } from "react-icons/bs";
+import { BsBasket, BsBook, BsHouseDoor, BsPlus } from "react-icons/bs";
 import Link from "next/link";
 
 const Navbar = () => {
@@ -19,11 +19,11 @@ const Navbar = () => {
       <Button variant="hover" onClick={handleShow} className="m-2 border hover">
         <FaBars />
       </Button>
-      <Offcanvas show={show} onHide={handleClose}>
+      <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Menu</Offcanvas.Title>
         </Offcanvas.Header>
-        <Offcanvas.Body>
+        <Offcanvas.Body className="flex gap-3 justify-content-start">
           <Container className="p-0 border rounded">
             <Col xs={12} onClick={handleClose}>
               <Link href="/" className="w-100 Link hover flex-r p-3 border-b">
@@ -43,7 +43,21 @@ const Navbar = () => {
             <Col xs={12} onClick={handleClose}>
               <Link href="/Articles" className="w-100 Link hover flex-r p-3">
                 <BsBook size={"25px"} className="me-3" />
-                Articles
+                Blog
+              </Link>
+            </Col>
+          </Container>
+          <Container className="p-0 border rounded">
+            <Col xs={12} onClick={handleClose}>
+              <Link href="/" className="w-100 Link hover flex-r p-3 border-b">
+                <BsPlus size={"25px"} className="me-3" />
+                Add Product
+              </Link>
+            </Col>
+            <Col xs={12} onClick={handleClose}>
+              <Link href="/AddArticle" className="w-100 Link hover flex-r p-3">
+                <BsPlus size={"25px"} className="me-3" />
+                Add Article
               </Link>
             </Col>
           </Container>

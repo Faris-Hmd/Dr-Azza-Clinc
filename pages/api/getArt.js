@@ -30,6 +30,7 @@ export default async function handler(req, res) {
         const art = req.body;
         querySnapShot = await addDoc(collection(db, "articles"), {
           ...art,
+          keywords: [art.title, art.category],
         });
         res.status(200).json({ msg: "Adding Done" });
       }
@@ -43,9 +44,10 @@ export default async function handler(req, res) {
 
     case "PUT": {
       const art = req.body;
-      //   console.log(art);
+      console.log({ ...art }, [art.title, art.category]);
       await setDoc(doc(db, "articles", art.id), {
         ...art,
+        keywords: [art.title, art.category],
       });
       res.status(200).json({ msg: "edit Done" });
     }

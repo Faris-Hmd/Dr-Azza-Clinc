@@ -29,6 +29,7 @@ export default async function handler(req, res) {
       category: product.data().category,
       img: product.data().productImgs[0].url,
       id: product.id,
+      keywords: product.data().keywords,
     };
   });
   console.log(products);
