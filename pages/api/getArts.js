@@ -28,7 +28,7 @@ export default async function handler(req, res) {
       breif: artecle.data().breif,
       img: artecle.data().atricleImgs[0].url,
       id: artecle.id,
-      keywords: artecle.data().keywords,
+      // keywords: artecle.data().keywords,
     };
   });
   console.log(articles);
