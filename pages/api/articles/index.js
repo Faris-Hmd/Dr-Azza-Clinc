@@ -1,12 +1,11 @@
 /** @format */
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { baseUrl } from "../_app";
-import { db } from "../../firebase/firebase";
+import { db } from "../../../firebase/firebase";
+import { baseUrl } from "../../_app";
 export default async function handler(req, res) {
   const url = new URL(baseUrl + req.url);
   const searchParams = url.searchParams;
   const keyword = searchParams.get("keyword");
-  console.log(baseUrl);
   let querySnapShot;
 
   if (keyword === "all") {

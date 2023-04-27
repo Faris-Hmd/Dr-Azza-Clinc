@@ -7,12 +7,10 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import { baseUrl } from "../_app";
-import { db } from "../../firebase/firebase";
+import { db } from "../../../firebase/firebase";
 export default async function handler(req, res) {
-  const url = new URL(baseUrl + req.url);
-  const searchParams = url.searchParams;
-  const artId = searchParams.get("artId");
+  const { artId } = req.query;
+
   let querySnapShot;
   console.log(req.method);
 

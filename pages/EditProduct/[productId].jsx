@@ -110,7 +110,7 @@ function EditProduct() {
         toast.success("Edit done");
         setTimeout(() => {
           setIsUpload(false);
-          router.push("/Product/" + router.query.productId);
+          router.push("/Products/" + router.query.productId);
         }, 3000);
       });
     } catch (e) {
