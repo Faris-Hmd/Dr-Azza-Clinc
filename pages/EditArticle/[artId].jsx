@@ -109,7 +109,7 @@ function EditArticles() {
         toast.success("Edit done");
         setTimeout(() => {
           setIsUpload(false);
-          router.push("/Article/" + router.query.artId);
+          router.push("/Articles/" + router.query.artId);
         }, 3000);
       });
     } catch (e) {
