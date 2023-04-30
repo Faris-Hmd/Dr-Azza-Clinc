@@ -1,17 +1,34 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Dropdown,
+  Modal,
+  Row,
+} from "react-bootstrap";
 import Link from "next/link";
-import { baseUrl } from "../_app";
-import SpinnerLoading from "../../component/SpinnerLoading";
-import { FillterForm, SearchModal } from "../../component/FillterForm";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import SpinnerLoading from "../../../component/SpinnerLoading";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import { FillterForm, SearchModal } from "../../../component/FillterForm";
+import { baseUrl } from "../../_app";
 
 function Articles(props) {
+  const router = useRouter();
   const [articles, setArticles] = useState(props.articles);
   const [fillteredArticles, setFillteredArticles] = useState(props.articles);
   const [isLoading, setIsLoading] = useState(false);
+  const [artId, setArtId] = useState("");
+  const [show, setShow] = useState(false);
   const [fillterShow, setfillterShow] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("ALL");
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   async function getArticles() {
     setIsLoading(true);
@@ -45,6 +62,15 @@ function Articles(props) {
     );
   }, [category]);
 
+  async function handleDelete() {
+    fetch(`${baseUrl}/api/articles/${artId}`, {
+      method: "delete",
+    }).then(() => {
+      toast.success("Delete Done");
+      getArticles();
+    });
+  }
+
   // useEffect(() => {
   //   getArticles();
   // }, []);
@@ -59,7 +85,19 @@ function Articles(props) {
         setCategory={setCategory}
         setfillterShow={setfillterShow}
       />
-
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Are you sure?</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button onClick={handleDelete} variant="danger">
+            Delete
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Container>
         <FillterForm
           keyword={keyword}
@@ -82,7 +120,6 @@ function Articles(props) {
       <Container className="p-0">
         <Row>
           <h2>ARTICLES</h2>
-
           <Container className="flex-r gap-2">
             {fillteredArticles.map((article, index) => {
               return (
@@ -98,14 +135,40 @@ function Articles(props) {
                         <Col xs={11}>
                           <Card.Title>{article.title}</Card.Title>
                         </Col>
-                        <Col xs={1}></Col>
+                        <Col xs={1}>
+                          <Dropdown>
+                            <Dropdown.Toggle variant="" className="mb-3">
+                              <BsThreeDotsVertical />
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                              <Dropdown.Item
+                                href="#/action-1"
+                                onClick={() =>
+                                  router.push("Edit/" + article.id)
+                                }
+                              >
+                                Edit
+                              </Dropdown.Item>
+                              <Dropdown.Item
+                                href="#/action-2"
+                                onClick={() => {
+                                  handleShow();
+                                  setArtId(article.id);
+                                }}
+                              >
+                                Delete
+                              </Dropdown.Item>
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </Col>
                       </Container>
                       <Card.Img src={article.img} height={"270px"} />
                       <Card.Text>{article?.breif}</Card.Text>
                       <Card.Text className="text-muted">
                         {article.category}
                       </Card.Text>
-                      <Link href={`Articles/${article.id}`}>
+                      <Link href={`/Articles/${article.id}`}>
                         <Button variant="success">Read more</Button>
                       </Link>
                     </Card.Body>

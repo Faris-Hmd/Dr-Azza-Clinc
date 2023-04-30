@@ -40,7 +40,7 @@ function ProductPreveiw({ product, images, secNo }) {
         <Card.Subtitle className="p-2">{product.category}</Card.Subtitle>
         {arr.map((index) => {
           return (
-            <>
+            <div key={index}>
               <Card.Title className="p-2">
                 {product?.[`section-${[index]}-title`]}
               </Card.Title>
@@ -48,7 +48,7 @@ function ProductPreveiw({ product, images, secNo }) {
               <Card.Text className="p-2">
                 {product?.[`section-${[index]}-body`]}
               </Card.Text>
-            </>
+            </div>
           );
         })}
       </Card.Body>

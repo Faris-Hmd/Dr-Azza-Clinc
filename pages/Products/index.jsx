@@ -16,7 +16,7 @@ function Products(props) {
   const [show, setShow] = useState(false);
   const [fillterShow, setfillterShow] = useState(false);
   const [keyword, setKeyword] = useState("");
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("ALL");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -43,14 +43,22 @@ function Products(props) {
 
   useEffect(() => {
     setFillteredProducts(
-      products.filter((product) => product.name.includes(keyword))
+      products.filter((product) =>
+        product.name.toLowerCase().includes(keyword.toLowerCase())
+      )
     );
   }, [keyword]);
 
   useEffect(() => {
     if (!category) return;
+    if (category == "ALL") {
+      setFillteredProducts(products);
+      return;
+    }
     setFillteredProducts(
-      products.filter((product) => product.category === category)
+      products.filter(
+        (product) => product.category.toLowerCase() === category.toLowerCase()
+      )
     );
   }, [category]);
 
@@ -89,10 +97,10 @@ function Products(props) {
             setfillterShow={setfillterShow}
           />
           {isLoading && <SpinnerLoading />}
-          {!isLoading && products.length > 0 ? (
+          {!isLoading && fillteredProducts.length > 0 ? (
             <ProductsContainer />
           ) : (
-            <h2>No Products</h2>
+            <h2 className="text-center h-100 full">No Products</h2>
           )}
         </Container>
       )}

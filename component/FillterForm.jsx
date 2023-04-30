@@ -1,4 +1,5 @@
 import { Button, Form, InputGroup, Modal } from "react-bootstrap";
+import { BiCategory } from "react-icons/bi";
 import { FaFilter } from "react-icons/fa";
 export function FillterForm({ setfillterShow, setKeyword, keyword }) {
   return (
@@ -12,6 +13,17 @@ export function FillterForm({ setfillterShow, setKeyword, keyword }) {
           onChange={(e) => setKeyword(e.target.value)}
           value={keyword}
         />
+        {keyword !== "" && (
+          <Button
+            className="border-0 bg-sec text-muted"
+            // variant="outline-secondary"
+            onClick={() => {
+              setKeyword("");
+            }}
+          >
+            +
+          </Button>
+        )}
         <Button
           className="border-0 bg-sec text-muted"
           // variant="outline-secondary"
@@ -19,7 +31,7 @@ export function FillterForm({ setfillterShow, setKeyword, keyword }) {
             setfillterShow(true);
           }}
         >
-          <FaFilter />
+          <BiCategory />
         </Button>
       </InputGroup>
     </Form>
@@ -52,6 +64,7 @@ export function SearchModal({
               }}
               value={category}
             >
+              <option value="ALL">ALL</option>
               <option value="LOREM">LOREM</option>
               <option value="IPSUM">IPSUM</option>
               <option value="DOLLOR">DOLLOR</option>

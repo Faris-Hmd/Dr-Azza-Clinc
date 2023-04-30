@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, Carousel, Col, Container, Form } from "react-bootstrap";
+import { Button, Col, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { baseUrl } from "../../_app";
 import { storage } from "../../../firebase/firebase";
 import SpinnerLoading from "../../../component/SpinnerLoading";
+import ArticleForm from "../../../component/ArticleForm";
+import ArticlePreveiw from "../../../component/ArticlesPreveiw";
 
 function EditArticles() {
   const router = useRouter();
@@ -121,7 +123,6 @@ function EditArticles() {
     }
   };
   useEffect(() => {
-    console.log("upload start");
     if (atricleImgs.length === 0) return;
     if (atricleImgs.length === images.length) {
       uploadArticle();
@@ -146,172 +147,29 @@ function EditArticles() {
       {!isLoading && (
         <Container className="flex-r align-items-start justify-content-around mt-1">
           <Col xs={12} lg={6}>
-            <Card>
-              <Card.Header>
-                <h2 className="m-0">EDITING ATRECLE</h2>
-              </Card.Header>
-              <Card.Body>
-                <Form onSubmit={handleUploadArtImg} id="atrForm">
-                  <Form.Group className="mb-3">
-                    <Form.Label>ARTICLE TITLE</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="title"
-                      onChange={handleChange}
-                      value={article.title}
-                      required
-                    />
-                  </Form.Group>
-                  <Form.Group className="mb-3">
-                    <Form.Label>BREIF</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      name="breif"
-                      required
-                      onChange={handleChange}
-                      value={article.breif}
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>ARTICLE CATEGORY</Form.Label>
-                    <Form.Select
-                      required
-                      name="category"
-                      onChange={handleChange}
-                      value={article.category}
-                    >
-                      <option value="LOREM">LOREM</option>
-                      <option value="IPSUM">IPSUM</option>
-                      <option value="DOLLOR">DOLLOR</option>
-                    </Form.Select>
-                  </Form.Group>
-
-                  <Form.Group className="mb-3">
-                    <Form.Label>SECTION NUMBER</Form.Label>
-                    <Form.Control
-                      type="number"
-                      value={secNo}
-                      required
-                      min={1}
-                      onChange={(e) => setSecNo(e.target.value)}
-                    />
-                  </Form.Group>
-                  {arr.map((index) => {
-                    return (
-                      <>
-                        <Form.Group className="mb-3">
-                          <Form.Label>SECTION {index} TITLE</Form.Label>
-                          <Form.Control
-                            type="text"
-                            name={"section-" + [index] + "-title"}
-                            value={article?.[`section-${[index]}-title`]}
-                            required
-                            onChange={handleChange}
-                          />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                          <Form.Label>SECTION {index} BODY</Form.Label>
-                          <Form.Control
-                            as="textarea"
-                            name={"section-" + [index] + "-body"}
-                            required
-                            rows={5}
-                            onChange={handleChange}
-                            value={article?.[`section-${[index]}-body`]}
-                          />
-                        </Form.Group>
-                        <hr />
-                      </>
-                    );
-                  })}
-                </Form>
-              </Card.Body>
-
-              {images.length > 0 && (
-                <Carousel>
-                  {images.map((img, index) => {
-                    return (
-                      <Carousel.Item
-                        onDoubleClick={() => removeImage(img.url)}
-                        key={index}
-                      >
-                        <img
-                          height={"250px"}
-                          className="d-block w-100"
-                          src={img.url}
-                          alt="First slide"
-                        />
-                      </Carousel.Item>
-                    );
-                  })}
-                </Carousel>
-              )}
-
-              {images.length === 0 && (
-                <Card.Img
-                  variant="buttom"
-                  src={`/images/fruits.webp`}
-                  height={"250px"}
-                />
-              )}
-
-              <Card.Subtitle className="m-2 text-muted">
-                duoble click on Image to remove it
-              </Card.Subtitle>
-              <label
-                htmlFor="productImg"
-                className="bg-clr-green p-2 m-1 rounded hover shadow w-50 text-center"
-              >
-                Add Product Images
-              </label>
-              <input
-                className="hidden"
-                accept="image/*"
-                multiple
-                id="productImg"
-                type="file"
-                onChange={handleImgChange}
-              />
-            </Card>
+            <h2 className="m-1">EDIT ARTECLE</h2>
+            <ArticleForm
+              arr={arr}
+              article={article}
+              handleChange={handleChange}
+              handleImgChange={handleImgChange}
+              handleUploadArtImg={handleUploadArtImg}
+              images={images}
+              removeImage={removeImage}
+              secNo={secNo}
+              setSecNo={setSecNo}
+            />
           </Col>
           <Col xs={12} lg={5}>
-            <Card>
-              <Card.Header> {<h2 className="m-0">PREVIEW</h2>}</Card.Header>
-              <Card.Body className="p-0">
-                <Card.Title className="p-2 pt-3">{article.title}</Card.Title>
-
-                {images.length > 0 && (
-                  <Card.Img src={images[0].url} height={"300px"} />
-                )}
-                <Card.Subtitle className="p-2">{article.breif}</Card.Subtitle>
-                {arr.map((index) => {
-                  return (
-                    <>
-                      <Card.Title className="p-2">
-                        {article?.[`section-${[index]}-title`]}
-                      </Card.Title>
-                      {images[index - 0] && (
-                        <Card.Img
-                          src={images[index - 0].url}
-                          height={"300px"}
-                        />
-                      )}
-                      <Card.Text className="p-2">
-                        {article?.[`section-${[index]}-body`]}
-                      </Card.Text>
-                    </>
-                  );
-                })}
-              </Card.Body>
-              <Button
-                className="bg-clr m-2 shadow"
-                // disabled={isUpload || images.length === 0}
-                type="submit"
-                form="atrForm"
-              >
-                Upload Changes
-              </Button>
-            </Card>
+            <ArticlePreveiw arr={arr} article={article} images={images} />
+            <Button
+              className="bg-clr mt-2 shadow w-100"
+              // disabled={isUpload || images.length === 0}
+              type="submit"
+              form="atrForm"
+            >
+              Upload
+            </Button>
           </Col>
         </Container>
       )}

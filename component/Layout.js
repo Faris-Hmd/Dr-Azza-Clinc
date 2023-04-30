@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <link rel="manifest" href="./manifest.json" />
+        <link rel="manifest" href="/manifest.json" />
         <link
           rel="shortcut icon"
           type="image/x-icon"
