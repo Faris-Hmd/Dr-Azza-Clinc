@@ -1,5 +1,5 @@
 import { Button, Form, InputGroup, Modal } from "react-bootstrap";
-import { FaFilter, FaSearch } from "react-icons/fa";
+import { FaFilter } from "react-icons/fa";
 export function FillterForm({ setfillterShow, setKeyword, keyword }) {
   return (
     <Form className="mt-1">
@@ -12,7 +12,6 @@ export function FillterForm({ setfillterShow, setKeyword, keyword }) {
           onChange={(e) => setKeyword(e.target.value)}
           value={keyword}
         />
-
         <Button
           className="border-0 bg-sec text-muted"
           // variant="outline-secondary"
@@ -21,16 +20,6 @@ export function FillterForm({ setfillterShow, setKeyword, keyword }) {
           }}
         >
           <FaFilter />
-        </Button>
-
-        <Button
-          className="border-0 bg-clr"
-          // variant="outline-secondary"
-          onClick={(e) => {
-            handleFillteringByName(e);
-          }}
-        >
-          <FaSearch />
         </Button>
       </InputGroup>
     </Form>

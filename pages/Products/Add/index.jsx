@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { db, storage } from "../firebase/firebase";
+import { db, storage } from "../../../firebase/firebase";
 import { useRouter } from "next/router";
-import ProductForm from "../component/ProductForm";
-import ProductPreveiw from "../component/ProductPreveiw";
+import ProductForm from "../../../component/ProductForm";
+import ProductPreveiw from "../../../component/ProductPreveiw";
 
 function AddProduct() {
   const router = useRouter();
@@ -94,7 +94,7 @@ function AddProduct() {
       toast.success("Upload done");
       setTimeout(() => {
         setIsUpload(false);
-        router.push("/Product/" + docRef.id);
+        router.push("/Products/" + docRef.id);
       }, 3000);
     } catch (e) {
       setIsUpload(false);

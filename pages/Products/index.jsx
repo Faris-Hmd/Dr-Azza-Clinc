@@ -7,13 +7,16 @@ import SpinnerLoading from "../../component/SpinnerLoading";
 import { toast } from "react-toastify";
 import { FillterForm, SearchModal } from "../../component/FillterForm";
 
-function Products() {
-  const [products, setProduct] = useState();
-  const [isLoading, setIsLoading] = useState(true);
+function Products(props) {
+  const [products, setProduct] = useState(props.products);
+  const [fillteredProducts, setFillteredProducts] = useState(props.products);
+
+  const [isLoading, setIsLoading] = useState(false);
   const [productId, setProductId] = useState("");
   const [show, setShow] = useState(false);
   const [fillterShow, setfillterShow] = useState(false);
   const [keyword, setKeyword] = useState("");
+  const [category, setCategory] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -29,15 +32,6 @@ function Products() {
       });
   }
 
-  async function handleFillterdSearch() {
-    setIsLoading(true);
-    const res = await fetch(`${baseUrl}/api/products?keyword=${keyword}`);
-    const data = await res.json();
-    if (res.ok) {
-      setProduct(data);
-      setIsLoading(false);
-    }
-  }
   async function handleDelete() {
     fetch(`${baseUrl}/api/products/${productId}`, {
       method: "delete",
@@ -48,8 +42,21 @@ function Products() {
   }
 
   useEffect(() => {
-    getProducts();
-  }, []);
+    setFillteredProducts(
+      products.filter((product) => product.name.includes(keyword))
+    );
+  }, [keyword]);
+
+  useEffect(() => {
+    if (!category) return;
+    setFillteredProducts(
+      products.filter((product) => product.category === category)
+    );
+  }, [category]);
+
+  // useEffect(() => {
+  //   getProducts();
+  // }, []);
   useEffect(() => window.scrollTo(0, 0), []);
 
   return (
@@ -68,16 +75,15 @@ function Products() {
         </Modal.Footer>
       </Modal>
       <SearchModal
-        keyword={keyword}
+        category={category}
         fillterShow={fillterShow}
-        setKeyword={setKeyword}
+        setCategory={setCategory}
         setfillterShow={setfillterShow}
       />
       {isLoading && <SpinnerLoading />}
       {!isLoading && (
         <Container>
           <FillterForm
-            handleFillterdSearch={handleFillterdSearch}
             keyword={keyword}
             setKeyword={setKeyword}
             setfillterShow={setfillterShow}
@@ -98,7 +104,7 @@ function Products() {
       <Container className="p-0">
         <h2>Products</h2>
         <Container className="flex-r gap-2 p-0">
-          {products.map((product, index) => {
+          {fillteredProducts.map((product, index) => {
             return (
               <Col
                 key={index}
@@ -120,7 +126,7 @@ function Products() {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            <Dropdown.Item href={"EditProduct/" + product.id}>
+                            <Dropdown.Item href={"Products/Edit/" + product.id}>
                               Edit
                             </Dropdown.Item>
                             <Dropdown.Item
@@ -144,7 +150,7 @@ function Products() {
                     </Card.Subtitle>
                     <Card.Text>{product.breif}</Card.Text>
                     <Link
-                      href={`Product/${product.id}`}
+                      href={`Products/${product.id}`}
                       className="Link bg-clr p-2 rounded shadow"
                     >
                       Details
@@ -162,13 +168,13 @@ function Products() {
 
 export default Products;
 
-// export async function getStaticProps() {
-//   const data = await fetch(`${baseUrl}/api/products?keyword=all`);
-//   const products = await data.json();
+export async function getStaticProps() {
+  const data = await fetch(`${baseUrl}/api/products?keyword=all`);
+  const products = await data.json();
 
-//   return {
-//     props: {
-//       products: products,
-//     },
-//   };
-// }
+  return {
+    props: {
+      products: products,
+    },
+  };
+}

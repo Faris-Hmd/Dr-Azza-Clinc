@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Button, Col, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-import { baseUrl } from "../_app";
-import { app, storage } from "../../firebase/firebase";
-import SpinnerLoading from "../../component/SpinnerLoading";
-import ProductForm from "../../component/ProductForm";
-import ProductPreveiw from "../../component/ProductPreveiw";
+import { baseUrl } from "../../_app";
+import { storage } from "../../../firebase/firebase";
+import SpinnerLoading from "../../../component/SpinnerLoading";
+import ProductForm from "../../../component/ProductForm";
+import ProductPreveiw from "../../../component/ProductPreveiw";
 
 function EditProduct() {
   const router = useRouter();

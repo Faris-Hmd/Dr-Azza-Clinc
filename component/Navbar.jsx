@@ -50,7 +50,7 @@ const Navbar = () => {
           <Container className="p-0 border rounded">
             <Col xs={12} onClick={handleClose}>
               <Link
-                href="/AddProduct"
+                href="Products/Add"
                 className="w-100 Link hover flex-r p-3 border-b"
               >
                 <BsPlus size={"25px"} className="me-3" />
@@ -58,7 +58,7 @@ const Navbar = () => {
               </Link>
             </Col>
             <Col xs={12} onClick={handleClose}>
-              <Link href="/AddArticle" className="w-100 Link hover flex-r p-3">
+              <Link href="Articles/Add" className="w-100 Link hover flex-r p-3">
                 <BsPlus size={"25px"} className="me-3" />
                 Add Article
               </Link>
