@@ -133,7 +133,7 @@ function Articles(props) {
                               <Dropdown.Item
                                 href="#/action-1"
                                 onClick={() =>
-                                  router.push("/EditArticle/" + article.id)
+                                  router.push("Articles/Edit/" + article.id)
                                 }
                               >
                                 Edit
