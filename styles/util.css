@@ -103,7 +103,8 @@ a:hover {
 }
 
 .bg-clr {
-  color: #eee;
+  color: #eee !important;
+
   background-color: var(--theme-clr) !important;
   border-color: var(--theme-clr) !important;
 }
@@ -114,7 +115,7 @@ a:hover {
   border-color: var(--theme-clr) !important;
 }
 .bg-clr-green {
-  color: #eee;
+  color: #eee !important;
   background-color: rgb(19, 111, 2) !important;
   border: 2px solid rgb(19, 111, 2) !important;
 }

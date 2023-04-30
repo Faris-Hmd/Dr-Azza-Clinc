@@ -37,7 +37,7 @@ function ProductPreveiw({ product, images, secNo }) {
         <Card.Subtitle className="p-2 text-success">
           {product.cost}$
         </Card.Subtitle>
-        <Card.Subtitle className="p-2">{product.category}$</Card.Subtitle>
+        <Card.Subtitle className="p-2">{product.category}</Card.Subtitle>
         {arr.map((index) => {
           return (
             <>

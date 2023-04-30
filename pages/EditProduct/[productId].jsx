@@ -3,7 +3,7 @@ import { Button, Col, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { baseUrl } from "../_app";
-import { app } from "../../firebase/firebase";
+import { app, storage } from "../../firebase/firebase";
 import SpinnerLoading from "../../component/SpinnerLoading";
 import ProductForm from "../../component/ProductForm";
 import ProductPreveiw from "../../component/ProductPreveiw";
@@ -54,10 +54,9 @@ function EditProduct() {
   ////////////////////////////////////////////////////
 
   const handleUploadProductImg = async (e) => {
-    const { getDownloadURL, ref, uploadBytesResumable, getStorage } =
-      await import("firebase/storage");
-    // const { app } = import("../../firebase/firebase");
-    const storage = await getStorage(app);
+    const { getDownloadURL, ref, uploadBytesResumable } = await import(
+      "firebase/storage"
+    );
 
     e.preventDefault();
     setIsUpload(true);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Carousel, Col, Container, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { app, db } from "../firebase/firebase";
+import { db, storage } from "../firebase/firebase";
 import { useRouter } from "next/router";
 
 function AddBlog() {
@@ -11,11 +11,16 @@ function AddBlog() {
   const [atricleImgs, setAtricleImgs] = useState([]);
   const [article, setArticle] = useState({});
   const [arr, setArr] = useState([]);
-  const [secNo, setSecNo] = useState(3);
+  const [secNo, setSecNo] = useState(1);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log(name, " ", value);
+    // console.log(name, " ", value);
+    localStorage.setItem(
+      "artAddForm",
+      JSON.stringify({ ...article, [name]: value })
+    );
+
     setArticle((prevData) => {
       return { ...prevData, [name]: value };
     });
@@ -39,10 +44,10 @@ function AddBlog() {
   ////////////////////////////////////////////////////
 
   const handleUploadArtImg = async (e) => {
-    const { getDownloadURL, ref, uploadBytesResumable, getStorage } =
-      await import("firebase/storage");
-    const storage = getStorage(app);
     e.preventDefault();
+    const { getDownloadURL, ref, uploadBytesResumable } = await import(
+      "firebase/storage"
+    );
     setIsUpload(true);
     setAtricleImgs([]);
     images.forEach((img) => {
@@ -56,6 +61,8 @@ function AddBlog() {
           console.log("Upload is " + progress + "% done");
         },
         (error) => {
+          toast.error("Error uploading");
+
           setIsUpload(false);
           // Handle unsuccessful uploads
         },
@@ -83,9 +90,10 @@ function AddBlog() {
       console.log("Document written with ID: ", docRef.id);
       setAtricleImgs([]);
       toast.success("Upload done");
+      localStorage.removeItem("artAddForm");
       setTimeout(() => {
         setIsUpload(false);
-        router.push("/Article/" + docRef.id);
+        router.push("/Articles/" + docRef.id);
       }, 3000);
     } catch (e) {
       setIsUpload(false);
@@ -107,172 +115,203 @@ function AddBlog() {
       setArr((prev) => [...prev, index]);
     }
   }, [secNo]);
+  useEffect(() => {
+    const art = JSON.parse(localStorage.getItem("artAddForm"));
+    art && setArticle({ ...art });
+  }, []);
 
   return (
     <Container className="flex-r align-items-start justify-content-around">
       <Col className="mb-1 mt-1" xs={12} lg={6}>
-        <Card>
-          <Card.Header>
-            <h2 className="m-0">ADD ATRECLE</h2>
-          </Card.Header>
-          <Card.Body>
-            <Form onSubmit={handleUploadArtImg} id="atrForm">
-              <Form.Group className="mb-3">
-                <Form.Label>ARTICLE NAME</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="title"
-                  required
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>BREIF</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  name="breif"
-                  required
-                  onChange={handleChange}
-                  value={article.breif}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>SECTION NUMBER</Form.Label>
-                <Form.Control
-                  type="number"
-                  value={secNo}
-                  required
-                  min={1}
-                  onChange={(e) => setSecNo(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label>ARTICLE CATEGORY</Form.Label>
-                <Form.Select name="category" onChange={handleChange} required>
-                  <option value="LOREM">LOREM</option>
-                  <option value="IPSUM">IPSUM</option>
-                  <option value="DOLLOR">DOLLOR</option>
-                </Form.Select>
-              </Form.Group>
-
-              {arr.map((index) => {
-                return (
-                  <>
-                    <Form.Group className="mb-3">
-                      <Form.Label>SECTION {index} TITLE</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name={"section-" + [index] + "-title"}
-                        required
-                        onChange={handleChange}
-                        value={article?.[`section-${[index]}-title`]}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Label>SECTION {index} BODY</Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        name={"section-" + [index] + "-body"}
-                        value={article?.[`section-${[index]}-body`]}
-                        required
-                        rows={5}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                    <hr />
-                  </>
-                );
-              })}
-            </Form>
-          </Card.Body>
-
-          {images.length > 0 && (
-            <Carousel>
-              {images.map((img, index) => {
-                console.log(index);
-                return (
-                  <Carousel.Item
-                    onDoubleClick={() => removeImage(img.url)}
-                    key={index}
-                  >
-                    <img
-                      height={"250px"}
-                      className="d-block w-100"
-                      src={img.url}
-                      alt="First slide"
-                    />
-                  </Carousel.Item>
-                );
-              })}
-            </Carousel>
-          )}
-
-          {images.length === 0 && (
-            <Card.Img
-              variant="buttom"
-              src={`/images/fruits.webp`}
-              height={"250px"}
-            />
-          )}
-
-          <Card.Subtitle className="m-2 text-muted">
-            duoble click on Image to remove it
-          </Card.Subtitle>
-          <label
-            htmlFor="productImg"
-            className="bg-clr-green p-2 m-1 rounded hover shadow w-50 text-center"
-          >
-            Add Product Images
-          </label>
-          <input
-            className="hidden"
-            accept="image/*"
-            multiple
-            id="productImg"
-            type="file"
-            onChange={handleImgChange}
-          />
-        </Card>
+        <h2 className="m-1">ADD ARTECLE</h2>
+        <ArticleForm
+          handleUploadArtImg={handleUploadArtImg}
+          handleChange={handleChange}
+          article={article}
+          secNo={secNo}
+          setSecNo={setSecNo}
+          arr={arr}
+          images={images}
+          removeImage={removeImage}
+          handleImgChange={handleImgChange}
+        />
       </Col>
 
       <Col xs={12} lg={5}>
-        <Card>
-          <Card.Header> {<h2 className="m-0">PREVIEW</h2>}</Card.Header>
-          <Card.Body className="p-0">
-            <Card.Title className="p-2 pt-3">{article.title}</Card.Title>
-
-            {images.length > 0 && (
-              <Card.Img src={images[0].url} height={"300px"} />
-            )}
-            <Card.Subtitle className="p-2">{article.breif}</Card.Subtitle>
-            {arr.map((index) => {
-              return (
-                <>
-                  <Card.Title className="p-2">
-                    {article?.[`section-${[index]}-title`]}
-                  </Card.Title>
-                  {images[index - 0] && (
-                    <Card.Img src={images[index - 0].url} height={"300px"} />
-                  )}
-                  <Card.Text className="p-2">
-                    {article?.[`section-${[index]}-body`]}
-                  </Card.Text>
-                </>
-              );
-            })}
-          </Card.Body>
-          <Button
-            className="bg-clr m-2 shadow"
-            disabled={isUpload || images.length === 0}
-            type="submit"
-            form="atrForm"
-          >
-            Upload
-          </Button>
-        </Card>
+        <h2 className="m-1">PREVIEW</h2>
+        {ArticlePreveiw(article, images, arr)}
       </Col>
     </Container>
   );
 }
 
 export default AddBlog;
+function ArticlePreveiw(article, images, arr) {
+  return (
+    <Card>
+      <Card.Body className="p-0">
+        <Card.Title className="p-2 pt-3">{article.title}</Card.Title>
+
+        {images.length > 0 && <Card.Img src={images[0].url} height={"300px"} />}
+        <Card.Subtitle className="p-2">{article.breif}</Card.Subtitle>
+        {arr.map((index) => {
+          return (
+            <div key={index}>
+              <Card.Title className="p-2">
+                {article?.[`section-${[index]}-title`]}
+              </Card.Title>
+              {images[index - 0] && (
+                <Card.Img src={images[index - 0].url} height={"300px"} />
+              )}
+              <Card.Text className="p-2">
+                {article?.[`section-${[index]}-body`]}
+              </Card.Text>
+            </div>
+          );
+        })}
+      </Card.Body>
+      <Button
+        className="bg-clr m-2 shadow"
+        // disabled={isUpload || images.length === 0}
+        type="submit"
+        form="atrForm"
+      >
+        Upload
+      </Button>
+    </Card>
+  );
+}
+
+function ArticleForm({
+  handleUploadArtImg,
+  handleChange,
+  article,
+  secNo,
+  setSecNo,
+  arr,
+  images,
+  removeImage,
+  handleImgChange,
+}) {
+  return (
+    <Card>
+      <Card.Body>
+        <Form onSubmit={handleUploadArtImg} id="atrForm">
+          <Form.Group className="mb-3">
+            <Form.Label>ARTICLE NAME</Form.Label>
+            <Form.Control
+              type="text"
+              name="title"
+              required
+              onChange={handleChange}
+              value={article.title}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>BREIF</Form.Label>
+            <Form.Control
+              as="textarea"
+              name="breif"
+              required
+              onChange={handleChange}
+              value={article.breif}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>SECTION NUMBER</Form.Label>
+            <Form.Control
+              type="number"
+              value={secNo}
+              required
+              min={1}
+              onChange={(e) => setSecNo(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>ARTICLE CATEGORY</Form.Label>
+            <Form.Select name="category" onChange={handleChange} required>
+              <option value="LOREM">LOREM</option>
+              <option value="IPSUM">IPSUM</option>
+              <option value="DOLLOR">DOLLOR</option>
+            </Form.Select>
+          </Form.Group>
+
+          {arr.map((index) => {
+            return (
+              <div key={index}>
+                <Form.Group className="mb-3">
+                  <Form.Label>SECTION {index} TITLE</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name={"section-" + [index] + "-title"}
+                    required
+                    onChange={handleChange}
+                    value={article?.[`section-${[index]}-title`]}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3">
+                  <Form.Label>SECTION {index} BODY</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    name={"section-" + [index] + "-body"}
+                    value={article?.[`section-${[index]}-body`]}
+                    required
+                    rows={5}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+                <hr />
+              </div>
+            );
+          })}
+        </Form>
+      </Card.Body>
+
+      {images.length > 0 && (
+        <Carousel>
+          {images.map((img, index) => {
+            return (
+              <Carousel.Item
+                onDoubleClick={() => removeImage(img.url)}
+                key={index}
+              >
+                <img
+                  height={"250px"}
+                  className="d-block w-100"
+                  src={img.url}
+                  alt="First slide"
+                />
+              </Carousel.Item>
+            );
+          })}
+        </Carousel>
+      )}
+
+      {images.length === 0 && (
+        <Card.Img
+          variant="buttom"
+          src={`/images/fruits.webp`}
+          height={"250px"}
+        />
+      )}
+
+      <Card.Subtitle className="m-2 text-muted">
+        duoble click on Image to remove it
+      </Card.Subtitle>
+      <label
+        htmlFor="productImg"
+        className="bg-clr-green p-2 m-1 rounded hover shadow w-50 text-center"
+      >
+        Add Product Images
+      </label>
+      <input
+        className="hidden"
+        accept="image/*"
+        multiple
+        id="productImg"
+        type="file"
+        onChange={handleImgChange}
+      />
+    </Card>
+  );
+}

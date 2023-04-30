@@ -82,7 +82,7 @@ function ProductForm({
           {arr.map((index) => {
             return (
               <>
-                <Form.Group className="mb-3">
+                <Form.Group className="mb-3" key={index}>
                   <Form.Label>SECTION {index} TITLE</Form.Label>
                   <Form.Select
                     type="text"

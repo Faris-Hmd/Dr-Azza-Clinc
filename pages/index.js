@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { Col, Container, Image, Row } from "react-bootstrap";
 import Post from "../component/Post";
 import ContactUs from "../component/ContactUs";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 
 const posts = [
   {
@@ -27,6 +29,14 @@ const posts = [
 ];
 
 function Homepage() {
+  async function getData() {
+    const data = await getDoc(doc(db, "products", "123456"));
+    const docs = await data.data();
+    console.log(docs);
+  }
+  useEffect(() => {
+    getData();
+  }, []);
   useEffect(() => window.scrollTo(0, 0), []);
 
   return (

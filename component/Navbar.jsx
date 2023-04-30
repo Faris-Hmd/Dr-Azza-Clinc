@@ -49,7 +49,10 @@ const Navbar = () => {
           </Container>
           <Container className="p-0 border rounded">
             <Col xs={12} onClick={handleClose}>
-              <Link href="/" className="w-100 Link hover flex-r p-3 border-b">
+              <Link
+                href="/AddProduct"
+                className="w-100 Link hover flex-r p-3 border-b"
+              >
                 <BsPlus size={"25px"} className="me-3" />
                 Add Product
               </Link>

@@ -1,8 +1,8 @@
 /** @format */
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { getStorage } from "firebase/storage";
+import { connectStorageEmulator, getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD2VxcAr80foavjtLN5dQOtbiVRoYUmMsU",
@@ -15,6 +15,20 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
+
+export const db = getFirestore(app);
+
+if (process.env.NODE_ENV === "development") {
+  connectStorageEmulator(storage, "localhost", 9199);
+  if (!db._settingsFrozen) {
+    console.log(db._settingsFrozen);
+    connectFirestoreEmulator(db, "localhost", 8080);
+  }
+}
+// if (process.env.NODE_ENV === "development") {
+//   connectFirestoreEmulator(db, "localhost", 3000);
+// }
+
+// connectFirestoreEmulator(db, "http://127.0.0.1", 3000);

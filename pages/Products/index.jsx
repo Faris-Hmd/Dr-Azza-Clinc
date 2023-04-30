@@ -1,19 +1,11 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Col,
-  Container,
-  Dropdown,
-  Modal,
-  Row,
-} from "react-bootstrap";
+import { Button, Card, Col, Container, Dropdown, Modal } from "react-bootstrap";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { baseUrl } from "../_app";
 import SpinnerLoading from "../../component/SpinnerLoading";
 import { toast } from "react-toastify";
-import { FillterForm, SearchModal } from "../Articles";
+import { FillterForm, SearchModal } from "../../component/FillterForm";
 
 function Products() {
   const [products, setProduct] = useState();
@@ -92,7 +84,7 @@ function Products() {
           />
           {isLoading && <SpinnerLoading />}
           {!isLoading && products.length > 0 ? (
-            ProductsContainer()
+            <ProductsContainer />
           ) : (
             <h2>No Products</h2>
           )}

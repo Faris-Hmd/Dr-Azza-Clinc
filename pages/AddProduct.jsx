@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { app, db } from "../firebase/firebase";
+import { db, storage } from "../firebase/firebase";
 import { useRouter } from "next/router";
 import ProductForm from "../component/ProductForm";
 import ProductPreveiw from "../component/ProductPreveiw";
@@ -16,6 +16,11 @@ function AddProduct() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    localStorage.setItem(
+      "productAddForm",
+      JSON.stringify({ ...product, [name]: value })
+    );
+
     console.log(name, " ", value);
     setProduct((prevData) => {
       return { ...prevData, [name]: value };
@@ -40,9 +45,10 @@ function AddProduct() {
   ////////////////////////////////////////////////////
 
   const handleUploadProductImg = async (e) => {
-    const { getDownloadURL, ref, uploadBytesResumable, getStorage } =
-      await import("firebase/storage");
-    const storage = getStorage(app);
+    const { getDownloadURL, ref, uploadBytesResumable } = await import(
+      "firebase/storage"
+    );
+
     e.preventDefault();
     setIsUpload(true);
     setProductImgs([]);
@@ -83,6 +89,8 @@ function AddProduct() {
       });
       console.log("Document written with ID: ", docRef.id);
       setProductImgs([]);
+      localStorage.removeItem("productAddForm");
+
       toast.success("Upload done");
       setTimeout(() => {
         setIsUpload(false);
@@ -101,11 +109,14 @@ function AddProduct() {
       uploadProduct();
     }
   }, [productImgs]); // eslint-disable-line
-
+  useEffect(() => {
+    const pro = JSON.parse(localStorage.getItem("productAddForm"));
+    pro && setProduct({ ...pro });
+  }, []);
   return (
     <Container className="flex-r align-items-start justify-content-around">
       <Col className="mb-1 mt-1" xs={12} lg={6}>
-        {<h2 className="m-0">Add Product</h2>}
+        {<h2 className="m-1">Add Product</h2>}
 
         <ProductForm
           product={product}
@@ -119,7 +130,7 @@ function AddProduct() {
         />
       </Col>
       <Col xs={12} lg={5}>
-        {<h2 className="m-0">PREVIEW</h2>}
+        {<h2 className="m-1">PREVIEW</h2>}
         <ProductPreveiw product={product} images={images} secNo={secNo} />
         <Button
           className="bg-clr mt-2 shadow w-100 "

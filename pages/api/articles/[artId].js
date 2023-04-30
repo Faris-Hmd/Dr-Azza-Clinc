@@ -10,9 +10,8 @@ import {
 import { db } from "../../../firebase/firebase";
 export default async function handler(req, res) {
   const { artId } = req.query;
-
   let querySnapShot;
-  console.log(req.method);
+  console.log(artId);
 
   switch (req.method) {
     case "GET":
@@ -42,6 +41,7 @@ export default async function handler(req, res) {
 
     case "PUT": {
       const art = req.body;
+      console.log(art);
       console.log({ ...art }, [art.title, art.category]);
       await setDoc(doc(db, "articles", art.id), {
         ...art,

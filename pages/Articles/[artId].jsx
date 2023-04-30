@@ -12,7 +12,8 @@ function Article() {
   const [secNo, setSecNo] = useState(1);
 
   async function getArt() {
-    fetch(`${baseUrl}/api/getArt?artId=${router.query.artId}`)
+    console.log(router.query.artId);
+    fetch(`${baseUrl}/api/articles/${router.query.artId}`)
       .then((res) => res.json())
       .then((data) => {
         setArticle(data);
@@ -46,8 +47,9 @@ function Article() {
               {/* <Card.Header>title</Card.Header> */}
               <Card.Body className="p-0">
                 <Card.Title className="p-2 pt-3">{article.title}</Card.Title>
-
-                <Card.Img src={article.atricleImgs[0].url} height={"300px"} />
+                {article.atricleImgs && (
+                  <Card.Img src={article.atricleImgs[0].url} height={"300px"} />
+                )}
                 <Card.Subtitle className="p-2">{article.breif}</Card.Subtitle>
                 {arr.map((index) => {
                   return (
@@ -55,19 +57,19 @@ function Article() {
                       <Card.Title className="p-2">
                         {article?.[`section-${[index]}-title`]}
                       </Card.Title>
-                      {article.atricleImgs[index - 0] && (
-                        <Card.Img
-                          src={article.atricleImgs[index - 0].url}
-                          height={"300px"}
-                        />
-                      )}
+                      {article?.atricleImgs &&
+                        article?.atricleImgs[index - 0] && (
+                          <Card.Img
+                            src={article.atricleImgs[index - 0].url}
+                            height={"300px"}
+                          />
+                        )}
                       <Card.Text className="p-2">
                         {article?.[`section-${[index]}-body`]}
                       </Card.Text>
                     </>
                   );
                 })}
-
                 <Card.Text className="p-2">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos
                   alias earum libero ex adipisci tenetur illum saepe

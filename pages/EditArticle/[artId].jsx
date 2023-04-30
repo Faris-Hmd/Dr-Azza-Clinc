@@ -3,7 +3,7 @@ import { Button, Card, Carousel, Col, Container, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { baseUrl } from "../_app";
-import { app } from "../../firebase/firebase";
+import { storage } from "../../firebase/firebase";
 import SpinnerLoading from "../../component/SpinnerLoading";
 
 function EditArticles() {
@@ -17,7 +17,7 @@ function EditArticles() {
   const [secNo, setSecNo] = useState(1);
 
   function getArticle() {
-    fetch(baseUrl + "/api/getArt?artId=" + router.query.artId)
+    fetch(baseUrl + "/api/articles/" + router.query.artId)
       .then((res) => res.json())
       .then((data) => {
         setIsLoading(false);
@@ -53,10 +53,9 @@ function EditArticles() {
   ////////////////////////////////////////////////////
 
   const handleUploadArtImg = async (e) => {
-    const { getDownloadURL, ref, uploadBytesResumable, getStorage } =
-      await import("firebase/storage");
-    // const { app } = import("../../firebase/firebase");
-    const storage = await getStorage(app);
+    const { getDownloadURL, ref, uploadBytesResumable } = await import(
+      "firebase/storage"
+    );
 
     e.preventDefault();
     setIsUpload(true);
@@ -76,6 +75,8 @@ function EditArticles() {
           },
           (error) => {
             setIsUpload(false);
+            toast.error("Error Editing");
+
             // Handle unsuccessful uploads
           },
           () => {
@@ -93,7 +94,8 @@ function EditArticles() {
   const uploadArticle = async () => {
     console.log("upload");
     try {
-      fetch(baseUrl + "/api/getArt", {
+      console.log(router.query.artId);
+      fetch(baseUrl + "/api/articles/" + router.query.artId, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -119,6 +121,7 @@ function EditArticles() {
     }
   };
   useEffect(() => {
+    console.log("upload start");
     if (atricleImgs.length === 0) return;
     if (atricleImgs.length === images.length) {
       uploadArticle();
@@ -302,7 +305,7 @@ function EditArticles() {
               </Card.Body>
               <Button
                 className="bg-clr m-2 shadow"
-                disabled={isUpload || images.length === 0}
+                // disabled={isUpload || images.length === 0}
                 type="submit"
                 form="atrForm"
               >
