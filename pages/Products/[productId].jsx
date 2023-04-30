@@ -1,9 +1,10 @@
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { Col, Container } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Container } from "react-bootstrap";
 import SpinnerLoading from "../../component/SpinnerLoading";
 import { baseUrl } from "../_app";
 import ProductPreveiw from "../../component/ProductPreveiw";
+import { BsStar } from "react-icons/bs";
 
 function Product() {
   const router = useRouter();
@@ -16,7 +17,7 @@ function Product() {
       .then((data) => {
         setProduct(data);
         setIsLoading(false);
-        console.log(data);
+        // console.log(data);
       });
   }
 
@@ -25,6 +26,8 @@ function Product() {
     getProduct(router.query.productId);
     console.log();
   }, [router.query.productId]);
+
+  function handleFav() {}
 
   useEffect(() => window.scrollTo(0, 0), []);
 
@@ -39,6 +42,11 @@ function Product() {
               images={product.productImgs}
               secNo={product.secNo}
             />
+            <ButtonGroup>
+              <Button onClick={handleFav}>
+                <BsStar />
+              </Button>
+            </ButtonGroup>
           </Col>
         </Container>
       )}

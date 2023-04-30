@@ -19,7 +19,7 @@ function Article() {
         setArticle(data);
         setSecNo(data.secNo);
         setIsLoading(false);
-        console.log(data);
+        // console.log(data);
       });
   }
 
@@ -53,7 +53,7 @@ function Article() {
                 <Card.Subtitle className="p-2">{article.breif}</Card.Subtitle>
                 {arr.map((index) => {
                   return (
-                    <>
+                    <div key={index}>
                       <Card.Title className="p-2">
                         {article?.[`section-${[index]}-title`]}
                       </Card.Title>
@@ -67,7 +67,7 @@ function Article() {
                       <Card.Text className="p-2">
                         {article?.[`section-${[index]}-body`]}
                       </Card.Text>
-                    </>
+                    </div>
                   );
                 })}
                 <Card.Text className="p-2">
