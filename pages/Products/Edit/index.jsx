@@ -1,19 +1,27 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import { Card, Col, Container } from "react-bootstrap";
-import { baseUrl } from "../_app";
-import SpinnerLoading from "../../component/SpinnerLoading";
-import { FillterForm, SearchModal } from "../../component/FillterForm";
+import { Button, Card, Col, Container, Dropdown, Modal } from "react-bootstrap";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { baseUrl } from "../../_app";
+import SpinnerLoading from "../../../component/SpinnerLoading";
+import { toast } from "react-toastify";
+import { FillterForm, SearchModal } from "../../../component/FillterForm";
 import { FaStar } from "react-icons/fa";
 
 function Products(props) {
   const [products, setProduct] = useState(props.products);
   const [fillteredProducts, setFillteredProducts] = useState(props.products);
   const [Fav, setFav] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
+  const [productId, setProductId] = useState("");
+  const [show, setShow] = useState(false);
   const [fillterShow, setfillterShow] = useState(false);
   const [keyword, setKeyword] = useState("");
   const [category, setCategory] = useState("ALL");
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   async function getProducts() {
     setIsLoading(true);
@@ -24,6 +32,15 @@ function Products(props) {
         setProduct(data);
         setIsLoading(false);
       });
+  }
+
+  async function handleDelete() {
+    fetch(`${baseUrl}/api/products/${productId}`, {
+      method: "delete",
+    }).then(() => {
+      toast.success("Delete Done");
+      getProducts();
+    });
   }
 
   useEffect(() => {
@@ -57,6 +74,19 @@ function Products(props) {
 
   return (
     <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Are you sure?</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button onClick={handleDelete} variant="danger">
+            Delete
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <SearchModal
         category={category}
         fillterShow={fillterShow}
@@ -106,6 +136,28 @@ function Products(props) {
                         {Fav.find((prod) => prod.id === product.id) && (
                           <FaStar className="" />
                         )}
+                        <Dropdown>
+                          <Dropdown.Toggle variant="" className="mb-3">
+                            <BsThreeDotsVertical />
+                          </Dropdown.Toggle>
+
+                          <Dropdown.Menu>
+                            <Dropdown.Item
+                              href={"/Products/Edit/" + product.id}
+                            >
+                              Edit
+                            </Dropdown.Item>
+                            <Dropdown.Item
+                              href="#delete"
+                              onClick={() => {
+                                handleShow();
+                                setProductId(product.id);
+                              }}
+                            >
+                              Delete
+                            </Dropdown.Item>
+                          </Dropdown.Menu>
+                        </Dropdown>
                       </Col>
                     </Container>
                     <Card.Subtitle className="mb-2 text-success">
