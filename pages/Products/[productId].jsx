@@ -5,6 +5,7 @@ import SpinnerLoading from "../../component/SpinnerLoading";
 import { baseUrl } from "../_app";
 import ProductPreveiw from "../../component/ProductPreveiw";
 import { BsAlarm, BsStar, BsStarFill } from "react-icons/bs";
+import { FaRegStar, FaStar, FaWhatsapp } from "react-icons/fa";
 
 function Product() {
   const router = useRouter();
@@ -62,13 +63,21 @@ function Product() {
               images={product.productImgs}
               secNo={product.secNo}
             />
-            <ButtonGroup>
-              <Button onClick={handleFav}>
+            <ButtonGroup className="m-1">
+              <Button onClick={handleFav} className="bg-clr">
                 {fav.find((pro) => pro.id === router.query.productId) ? (
-                  <BsStar />
+                  <>
+                    <FaStar className="ms-" />
+                  </>
                 ) : (
-                  <BsAlarm />
+                  <>
+                    <FaRegStar className="ms-2" />
+                  </>
                 )}
+              </Button>
+              <Button variant="success">
+                Order
+                <FaWhatsapp className="ms-2" />
               </Button>
             </ButtonGroup>
           </Col>
