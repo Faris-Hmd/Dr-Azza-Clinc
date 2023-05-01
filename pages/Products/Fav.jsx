@@ -5,6 +5,7 @@ import { Col, Container, Row } from "react-bootstrap";
 function Fav() {
   const [Fav, setFav] = useState([]);
   useEffect(() => {
+    if (!localStorage.getItem("fav")) return;
     setFav(JSON.parse(localStorage.getItem("fav")));
   }, []);
   return (

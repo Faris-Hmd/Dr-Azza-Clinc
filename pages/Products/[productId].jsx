@@ -48,6 +48,7 @@ function Product() {
   }
 
   useEffect(() => {
+    if (!localStorage.getItem("fav")) return;
     setFav(JSON.parse(localStorage.getItem("fav")));
   }, []);
   useEffect(() => window.scrollTo(0, 0), []);
@@ -71,7 +72,7 @@ function Product() {
                   </>
                 ) : (
                   <>
-                    <FaRegStar className="ms-2" />
+                    <FaRegStar className="" />
                   </>
                 )}
               </Button>

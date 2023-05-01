@@ -80,7 +80,7 @@ const Navbar = () => {
             })}
           </Container>
           <Container className="p-0 border rounded">
-            <Accordion flush>
+            <Accordion flush className="">
               <Accordion.Item eventKey="1">
                 <Accordion.Header>
                   <BsPlus size={"20px"} className="me-3" />

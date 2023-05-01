@@ -9,8 +9,8 @@ import { FillterForm, SearchModal } from "../../../component/FillterForm";
 import { FaStar } from "react-icons/fa";
 
 function Products(props) {
-  const [products, setProduct] = useState(props.products);
-  const [fillteredProducts, setFillteredProducts] = useState(props.products);
+  const [products, setProduct] = useState([]);
+  const [fillteredProducts, setFillteredProducts] = useState([]);
   const [Fav, setFav] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +30,7 @@ function Products(props) {
       .then((data) => {
         console.log(data);
         setProduct(data);
+        setFillteredProducts(data);
         setIsLoading(false);
       });
   }
@@ -67,9 +68,9 @@ function Products(props) {
   useEffect(() => {
     setFav(JSON.parse(localStorage.getItem("fav")));
   }, []);
-  // useEffect(() => {
-  //   getProducts();
-  // }, []);
+  useEffect(() => {
+    getProducts();
+  }, []);
   useEffect(() => window.scrollTo(0, 0), []);
 
   return (
@@ -186,13 +187,13 @@ function Products(props) {
 
 export default Products;
 
-export async function getStaticProps() {
-  const data = await fetch(`${baseUrl}/api/products?keyword=all`);
-  const products = await data.json();
+// export async function getStaticProps() {
+//   const data = await fetch(`${baseUrl}/api/products?keyword=all`);
+//   const products = await data.json();
 
-  return {
-    props: {
-      products: products,
-    },
-  };
-}
+//   return {
+//     props: {
+//       products: products,
+//     },
+//   };
+// }
