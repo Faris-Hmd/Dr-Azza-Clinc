@@ -6,10 +6,12 @@ import { baseUrl } from "../_app";
 import SpinnerLoading from "../../component/SpinnerLoading";
 import { toast } from "react-toastify";
 import { FillterForm, SearchModal } from "../../component/FillterForm";
+import { FaStar, FaStarHalf } from "react-icons/fa";
 
 function Products(props) {
   const [products, setProduct] = useState(props.products);
   const [fillteredProducts, setFillteredProducts] = useState(props.products);
+  const [Fav, setFav] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [productId, setProductId] = useState("");
@@ -62,6 +64,9 @@ function Products(props) {
     );
   }, [category]);
 
+  useEffect(() => {
+    setFav(JSON.parse(localStorage.getItem("fav")));
+  }, []);
   // useEffect(() => {
   //   getProducts();
   // }, []);
@@ -128,7 +133,10 @@ function Products(props) {
                         <Card.Title>{product.name}</Card.Title>
                       </Col>
                       <Col xs={1}>
-                        <Dropdown>
+                        {Fav.find((prod) => prod.id === product.id) && (
+                          <FaStar className="" />
+                        )}
+                        {/* <Dropdown>
                           <Dropdown.Toggle variant="" className="mb-3">
                             <BsThreeDotsVertical />
                           </Dropdown.Toggle>
@@ -147,7 +155,7 @@ function Products(props) {
                               Delete
                             </Dropdown.Item>
                           </Dropdown.Menu>
-                        </Dropdown>
+                        </Dropdown> */}
                       </Col>
                     </Container>
                     <Card.Subtitle className="mb-2 text-success">

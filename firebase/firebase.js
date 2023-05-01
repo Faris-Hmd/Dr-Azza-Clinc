@@ -20,13 +20,13 @@ export const storage = getStorage(app);
 
 export const db = getFirestore(app);
 
-if (process.env.NODE_ENV === "development") {
-  connectStorageEmulator(storage, "localhost", 9199);
-  if (!db._settingsFrozen) {
-    console.log(db._settingsFrozen);
-    connectFirestoreEmulator(db, "localhost", 8080);
-  }
-}
+// if (process.env.NODE_ENV === "development") {
+//   connectStorageEmulator(storage, "localhost", 9199);
+//   if (!db._settingsFrozen) {
+//     console.log(db._settingsFrozen);
+//     connectFirestoreEmulator(db, "localhost", 8080);
+//   }
+// }
 // if (process.env.NODE_ENV === "development") {
 //   connectFirestoreEmulator(db, "localhost", 3000);
 // }

@@ -5,12 +5,15 @@ import { FaBars, FaHome } from "react-icons/fa";
 import {
   BsBasket,
   BsBook,
+  BsCart3,
   BsHouseDoor,
   BsPencil,
   BsPlus,
   BsShop,
+  BsStar,
 } from "react-icons/bs";
 import Link from "next/link";
+import { BiBookmark } from "react-icons/bi";
 
 const link = [
   {
@@ -21,12 +24,22 @@ const link = [
   {
     name: "SHOP",
     href: "/Products",
-    icon: <BsShop size={"20px"} className="me-3" />,
+    icon: <BsCart3 size={"20px"} className="me-3" />,
   },
   {
     name: "BLOG",
     href: "/Articles",
     icon: <BsBook size={"20px"} className="me-3" />,
+  },
+  {
+    name: "Favorites",
+    href: "/Products/Fav",
+    icon: <BsStar size={"20px"} className="me-3" />,
+  },
+  {
+    name: "Bookmarks",
+    href: "/Articles",
+    icon: <BiBookmark size={"20px"} className="me-3" />,
   },
 ];
 
@@ -55,7 +68,7 @@ const Navbar = () => {
                 <Col xs={12} onClick={handleClose} key={index}>
                   <Link
                     href={link.href}
-                    className="w-100 Link hover flex-r p-3 rounded border mt-1"
+                    className="w-100 Link hover flex-r p-2 rounded border mt-1"
                   >
                     {link.icon}
                     {link.name}

@@ -18,8 +18,8 @@ import { baseUrl } from "../../_app";
 
 function Articles(props) {
   const router = useRouter();
-  const [articles, setArticles] = useState(props.articles);
-  const [fillteredArticles, setFillteredArticles] = useState(props.articles);
+  const [articles, setArticles] = useState([]);
+  const [fillteredArticles, setFillteredArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [artId, setArtId] = useState("");
   const [show, setShow] = useState(false);
@@ -71,9 +71,9 @@ function Articles(props) {
     });
   }
 
-  // useEffect(() => {
-  //   getArticles();
-  // }, []);
+  useEffect(() => {
+    getArticles();
+  }, []);
   useEffect(() => window.scrollTo(0, 0), []);
   return (
     <>
@@ -185,13 +185,13 @@ function Articles(props) {
 
 export default Articles;
 
-export async function getStaticProps() {
-  const data = await fetch(`${baseUrl}/api/articles?keyword=all`);
-  const articles = await data.json();
+// export async function getStaticProps() {
+//   const data = await fetch(`${baseUrl}/api/articles?keyword=all`);
+//   const articles = await data.json();
 
-  return {
-    props: {
-      articles: articles,
-    },
-  };
-}
+//   return {
+//     props: {
+//       articles: articles,
+//     },
+//   };
+// }

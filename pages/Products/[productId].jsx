@@ -4,11 +4,12 @@ import { Button, ButtonGroup, Col, Container } from "react-bootstrap";
 import SpinnerLoading from "../../component/SpinnerLoading";
 import { baseUrl } from "../_app";
 import ProductPreveiw from "../../component/ProductPreveiw";
-import { BsStar } from "react-icons/bs";
+import { BsAlarm, BsStar, BsStarFill } from "react-icons/bs";
 
 function Product() {
   const router = useRouter();
   const [product, setProduct] = useState({});
+  const [fav, setFav] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   async function getProduct() {
@@ -27,8 +28,27 @@ function Product() {
     console.log();
   }, [router.query.productId]);
 
-  function handleFav() {}
+  function handleFav() {
+    const isFav = fav.find((prod) => prod.id === router.query.productId);
+    if (isFav) {
+      localStorage.setItem(
+        "fav",
+        JSON.stringify(fav.filter((prod) => prod.id !== router.query.productId))
+      );
+      // console.log(fav.filter((prod) => prod.id !== router.query.productId));
+      setFav((prev) =>
+        prev.filter((prod) => prod.id !== router.query.productId)
+      );
+    } else {
+      // console.log([...fav, product]);
+      localStorage.setItem("fav", JSON.stringify([...fav, product]));
+      setFav((prev) => [...prev, product]);
+    }
+  }
 
+  useEffect(() => {
+    setFav(JSON.parse(localStorage.getItem("fav")));
+  }, []);
   useEffect(() => window.scrollTo(0, 0), []);
 
   return (
@@ -44,7 +64,11 @@ function Product() {
             />
             <ButtonGroup>
               <Button onClick={handleFav}>
-                <BsStar />
+                {fav.find((pro) => pro.id === router.query.productId) ? (
+                  <BsStar />
+                ) : (
+                  <BsAlarm />
+                )}
               </Button>
             </ButtonGroup>
           </Col>
