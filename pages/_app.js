@@ -9,11 +9,11 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const internetUrl = "https://dr-azza-clinc.netlify.app";
 const localurl = " http://localhost:3005";
-export let baseUrl = localurl;
+export let baseUrl = internetUrl;
 
-// if (process && process.env.NODE_ENV === "development") {
-//   baseUrl = localurl;
-// }
+if (process && process.env.NODE_ENV === "development") {
+  baseUrl = localurl;
+}
 
 function MyApp({ Component, pageProps }) {
   return (
